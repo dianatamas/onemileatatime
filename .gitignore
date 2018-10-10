@@ -6,6 +6,7 @@
 
 #secrets
 /server/secrets.js
+/client/key.js
 
 # testing
 /coverage

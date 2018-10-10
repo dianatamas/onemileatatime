@@ -6,6 +6,7 @@ const PlacesSchema = new Schema({
   lat: Number,
   lng: Number,
   rating: Number,
+  type: String,
   comment: String,
   tip: String
 }, { timestamps: true });
@@ -16,6 +17,11 @@ const TravelSchema = new Schema({
   title: String,
   description: String,
   image: String,
+  status: String,
+  rating: Number,
+  housingBudget: Number,
+  transportBudget: Number,
+  otherBudget: Number,
   startDate: Date,
   endDate: Date,
   places: [PlacesSchema]

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import FilterListIcon from '@material-ui/icons/FilterList';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -213,7 +216,25 @@ const mapStyles = [
   }
 ]
 
-export default class TravelPage extends Component {
+const styles = {
+  tagDone: {
+    padding: '5px 8px 5px 8px',
+    backgroundColor: '#34a83499',
+    maxWidth: 'min-content',
+  },
+  addButton: {
+    position: 'absolute',
+    top: '56%',
+    left: '95%',
+  },
+  filterButton: {
+    position: 'absolute',
+    top: '44%',
+    left: '95%',
+  }
+
+}
+class TravelPage extends Component {
 
   createInfoWindow = (e, place,  map) => {
     const infoWindow = new window.google.maps.InfoWindow({
@@ -250,29 +271,49 @@ export default class TravelPage extends Component {
   }
 
   render () {
-    const { travel } = this.props
+    const { classes, travel } = this.props
     let travelPage
     if(travel !== undefined) {
       travelPage =
-      <div>
-          <Map
-            id="myMap"
-            options={{
-              center: { lat: 41.0082, lng: 28.9784 },
-              zoom: 8,
-              styles: mapStyles
-            }}
-            onMapLoad={map => {
-              this.createMarkers(map)
-            }}
-            />
-          </div>
+        <Grid container spacing={8} style={{height: '100%'}}>
+
+          <Grid item xs={3}>
+            <Card style={{marginTop: 5}}>
+              <CardContent>
+                <Typography variant='headline' gutterBottom>{travel.title.toUpperCase()}</Typography>
+                <Typography gutterBottom>{travel.description}</Typography>
+                <div className={classes.tagDone}><Typography variant='button' style={{color: 'white', fontWeight: 500}}>{travel.status}</Typography></div>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={9}>
+            <Map
+              id="myMap"
+              options={{
+                center: { lat: 41.0082, lng: 28.9784 },
+                zoom: 8,
+                styles: mapStyles
+              }}
+              onMapLoad={map => {
+                this.createMarkers(map)
+              }}
+              />
+              <Button variant="fab" color="secondary" aria-label="Add" className={classes.addButton}>
+                <AddIcon />
+              </Button>
+              <Button variant="fab" color="secondary" aria-label="Filter" className={classes.filterButton}>
+                <FilterListIcon />
+              </Button>
+            </Grid>
+          </Grid>
     }
 
     return (
-      <div>
+      <div style={{height: 'calc(100% - 64px)'}}>
       { travelPage }
       </div>
     )
   }
 }
+
+export default withStyles(styles)(TravelPage)

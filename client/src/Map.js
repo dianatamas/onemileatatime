@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
+import { apiKey } from './key'
 
 export default class Map extends Component {
 
@@ -14,7 +15,7 @@ export default class Map extends Component {
     if (!window.google) {
       var s = document.createElement('script');
       s.type = 'text/javascript';
-      s.src = `https://maps.google.com/maps/api/js?key=AIzaSyAJ1ArvGnxHbXnFpH0en4wnMINCixxEG2s`;
+      s.src = 'https://maps.google.com/maps/api/js?key=' + apiKey;
       var x = document.getElementsByTagName('script')[0];
       x.parentNode.insertBefore(s, x);
       // Below is important.
@@ -29,7 +30,7 @@ export default class Map extends Component {
 
   render() {
     return (
-      <div style={{ height: 600 }} id={this.props.id} />
+      <div style={{ height: '100%', width: '100%' }} id={this.props.id} />
     );
   }
 }
