@@ -5,13 +5,16 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
 import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import Map from './Map'
 import InfoCard from './InfoCard'
+import TravelSummaryCard from './TravelSummaryCard'
 
 const mapStyles = [
   {
@@ -225,16 +228,35 @@ const styles = {
   addButton: {
     position: 'absolute',
     top: '56%',
-    left: '95%',
+    left: '92%',
   },
   filterButton: {
     position: 'absolute',
     top: '44%',
-    left: '95%',
+    left: '92%',
   }
 
 }
+
 class TravelPage extends Component {
+
+  state = {
+    addDialog: false,
+    places: [],
+  }
+
+  handlePlaceSearch = (e) => {
+    let value=e.target.value
+    if(this.props.mapsLoaded) {
+      let service = new window.google.maps.places.AutocompleteService();
+      service.getPlacePredictions(
+        {input: 'london'},
+        predictions => {
+          console.log(predictions)
+        }
+      )
+    }
+  }
 
   createInfoWindow = (e, place,  map) => {
     const infoWindow = new window.google.maps.InfoWindow({
@@ -271,22 +293,18 @@ class TravelPage extends Component {
   }
 
   render () {
-    const { classes, travel } = this.props
+    const { classes, mapsLoaded, travel } = this.props
     let travelPage
-    if(travel !== undefined) {
+    if(mapsLoaded && travel !== undefined) {
       travelPage =
         <Grid container spacing={8} style={{height: '100%'}}>
 
-          <Grid item xs={3}>
-            <Card style={{marginTop: 5}}>
-              <CardContent>
-                <Typography variant='headline' gutterBottom>{travel.title.toUpperCase()}</Typography>
-                <Typography gutterBottom>{travel.description}</Typography>
-                <div className={classes.tagDone}><Typography variant='button' style={{color: 'white', fontWeight: 500}}>{travel.status}</Typography></div>
-              </CardContent>
-            </Card>
+          <Grid item xs={12} sm={3}>
+            <TravelSummaryCard
+              travel = { travel }
+            />
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={12} sm={9} style={{position: 'relative'}}>
             <Map
               id="myMap"
               options={{
@@ -298,7 +316,13 @@ class TravelPage extends Component {
                 this.createMarkers(map)
               }}
               />
-              <Button variant="fab" color="secondary" aria-label="Add" className={classes.addButton}>
+              <Button
+                onClick={ () => this.setState({addDialog: true}) }
+                variant="fab"
+                color="secondary"
+                aria-label="Add"
+                className={classes.addButton}
+              >
                 <AddIcon />
               </Button>
               <Button variant="fab" color="secondary" aria-label="Filter" className={classes.filterButton}>
@@ -311,6 +335,20 @@ class TravelPage extends Component {
     return (
       <div style={{height: 'calc(100% - 64px)'}}>
       { travelPage }
+      <Dialog
+        open={ this.state.addDialog }
+        onClose={ () => this.setState({addDialog: false}) }
+      >
+        <DialogTitle>Add a new place</DialogTitle>
+        <DialogContent>
+          <TextField
+            onChange={ this.handlePlaceSearch }
+          >
+          </TextField>
+
+        </DialogContent>
+
+      </Dialog>
       </div>
     )
   }

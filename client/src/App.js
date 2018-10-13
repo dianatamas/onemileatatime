@@ -5,6 +5,8 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import Header from './Header.js'
 import Home from './Home.js'
 import TravelPage from './TravelPage.js'
+import { apiKey } from './key'
+
 
 const theme = createMuiTheme({
   palette: {
@@ -20,6 +22,7 @@ const theme = createMuiTheme({
 export default class App extends Component {
   state = {
     travels: [],
+    mapsLoaded: false,
   }
 
   loadApi = () => {
@@ -32,6 +35,16 @@ export default class App extends Component {
 
   componentDidMount () {
     this.loadApi()
+    
+    // Load Google Maps API script
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.src = 'https://maps.google.com/maps/api/js?key=' + apiKey + '&libraries=places';
+    var x = document.getElementsByTagName('script')[0];
+    x.parentNode.insertBefore(s, x);
+    s.addEventListener('load', e => {
+      this.setState({ mapsLoaded: true })
+    })
   }
 
   render() {
@@ -48,6 +61,7 @@ export default class App extends Component {
               render={(props) =>
                 <TravelPage
                   travel={ this.state.travels.find((travel) => {return travel._id == props.match.params.id}) }
+                  mapsLoaded={ this.state.mapsLoaded }
                 />}
             />
           </Switch>
