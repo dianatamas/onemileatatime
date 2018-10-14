@@ -10,8 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-
+import Select from 'react-select';
 import Map from './Map'
 import InfoCard from './InfoCard'
 import TravelSummaryCard from './TravelSummaryCard'
@@ -242,19 +241,54 @@ class TravelPage extends Component {
 
   state = {
     addDialog: false,
-    places: [],
+    predictions: [],
+    map: null,
   }
 
   handlePlaceSearch = (e) => {
-    let value=e.target.value
-    if(this.props.mapsLoaded) {
+    let value=e
+    if(this.props.mapsLoaded && value !== '') {
       let service = new window.google.maps.places.AutocompleteService();
       service.getPlacePredictions(
-        {input: 'london'},
+        {input: value},
         predictions => {
-          console.log(predictions)
+          if(predictions !== null ) {
+            predictions = predictions.map(pred => pred = {value: pred.place_id, label: pred.description})
+            this.setState({ predictions }, () => console.log(this.state.predictions))
+          }
         }
       )
+    }
+    else if (value == '') {
+        this.setState({ predictions: [] })
+    }
+  }
+
+  handleAddPlace = (e) => {
+    if(e !== null) {
+      let place_id = e.value
+      let map = this.state.map
+      let marker = new window.google.maps.Marker({
+          map: map
+      });
+      let geocoder = new window.google.maps.Geocoder
+      geocoder.geocode({'placeId': place_id}, (results, status) => {
+        if (status !== 'OK') {
+          window.alert('Geocoder failed due to: ' + status);
+          return;
+        }
+        // Set the position of the marker using the place ID and location.
+        let marker = new window.google.maps.Marker({
+          position: results[0].geometry.location,
+          map: map,
+          icon: '/images/pin.png'
+        });
+        var bounds = map.getBounds();
+        bounds.extend(marker.position);
+        marker.setVisible(true);
+        map.fitBounds(bounds)
+        this.setState({ addDialog: false })
+      })
     }
   }
 
@@ -314,6 +348,7 @@ class TravelPage extends Component {
               }}
               onMapLoad={map => {
                 this.createMarkers(map)
+                this.setState({ map })
               }}
               />
               <Button
@@ -340,12 +375,13 @@ class TravelPage extends Component {
         onClose={ () => this.setState({addDialog: false}) }
       >
         <DialogTitle>Add a new place</DialogTitle>
-        <DialogContent>
-          <TextField
-            onChange={ this.handlePlaceSearch }
-          >
-          </TextField>
-
+        <DialogContent style={{ height: 300, width: 300}}>
+          <Select
+            options={ this.state.predictions }
+            onInputChange={ this.handlePlaceSearch }
+            onChange={ this.handleAddPlace }
+            isClearable
+          />
         </DialogContent>
 
       </Dialog>
