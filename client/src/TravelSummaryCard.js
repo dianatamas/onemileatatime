@@ -11,8 +11,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-import Favorite from '@material-ui/icons/Favorite';
+import StarBorder from '@material-ui/icons/StarBorder';
+import Star from '@material-ui/icons/Star';
 
 const tutorialSteps = [
   {
@@ -28,12 +28,10 @@ const tutorialSteps = [
 const styles = {
   tagDone: {
     padding: '5px 8px 5px 8px',
-    marginBottom: 20,
     backgroundColor: '#34a83499',
     maxWidth: 'min-content',
   },
   budgetBar: {
-    flexGrow: 1,
     height: 20,
   },
   img: {
@@ -67,31 +65,43 @@ class TravelSummaryCard extends Component {
     const { activeStep } = this.state;
 
     const maxSteps = tutorialSteps.length;
+    const totalBudget = travel.housingBudget + travel.transportBudget + travel.otherBudget
+    const housingFlexGrow = travel.housingBudget / totalBudget
+    const transportFlexGrow = travel.transportBudget / totalBudget
+    const otherFlexGrow = travel.otherBudget / totalBudget
 
     return (
       <Card style={{marginTop: 5}}>
         <CardContent>
-          <Typography variant='headline' gutterBottom>{travel.title.toUpperCase()}</Typography>
-          <Typography gutterBottom>{travel.description}</Typography>
-          <div className={classes.tagDone}>
-            <Typography variant='button' style={{color: 'white', fontWeight: 500}}>{travel.status}</Typography>
-          </div>
+        <Grid container alignItems={'center'} style={{marginBottom:20}}>
+            <Grid item>
+              <Typography variant='headline' style={{fontWeight: 500, marginRight: 10}} >{travel.title.toUpperCase()}</Typography>
+            </Grid>
+            <Grid item>
+              <div className={classes.tagDone}>
+                <Typography variant='button' style={{color: 'white', fontWeight: 500}}>{travel.status}</Typography>
+              </div>
+            </Grid>
+          </Grid>
           <Rating
             fractions={2}
             initialRating={travel.rating}
-            emptySymbol={<FavoriteBorder style={{color: 'pink'}}/>}
-            fullSymbol={<Favorite style={{color: 'pink'}}/>}
+            emptySymbol={<StarBorder style={{color: '#1976d2'}}/>}
+            fullSymbol={<Star style={{color: '#1976d2'}}/>}
           />
+          <Typography gutterBottom>{travel.description}</Typography>
+
+
           <Typography variant='subheading'>Budget</Typography>
           <div style={{display: 'flex', marginBottom: 30}}>
             <Tooltip title={'Housing Budget: ' + travel.housingBudget + ' £'}>
-              <div className={classes.budgetBar} style={{backgroundColor: '#1976d2'}}></div>
+              <div className={classes.budgetBar} style={{backgroundColor: '#1976d2', flexGrow: housingFlexGrow }}></div>
             </Tooltip>
             <Tooltip title={'Transport Budget: ' + travel.transportBudget + ' £'}>
-              <div className={classes.budgetBar} style={{backgroundColor: '#f44336'}}></div>
+              <div className={classes.budgetBar} style={{backgroundColor: '#2196F3', flexGrow: transportFlexGrow }}></div>
             </Tooltip>
             <Tooltip title={'Other Budget: ' + travel.otherBudget + ' £'}>
-              <div className={classes.budgetBar} style={{backgroundColor: '#f4d236'}}></div>
+              <div className={classes.budgetBar} style={{backgroundColor: '#BBDEFB', flexGrow: otherFlexGrow }}></div>
             </Tooltip>
           </div>
 

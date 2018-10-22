@@ -7,6 +7,7 @@ import Travel from './models/travel';
 // Create the instances
 const app = express();
 const router = express.Router();
+const travelRouter = express.Router();
 
 // Set up images folder to serve images
 app.use('/images', express.static('images'));
@@ -22,9 +23,16 @@ router.get('/', (req, res) => {
     return res.json({ success: true, data: travels });
   });
 });
-
 // Use our router configuration when we call /api
 app.use('/api', router);
+
+travelRouter.post('/add', (req, res) => {
+  console.log('api done');
+  let travel = new Travel(req.body);
+  travel.save();
+  res.status(201).send(travel)
+})
+app.use('/travels', travelRouter);
 
 // Connect to MongoDB
 mongoose.connect(getSecret('dbUri'), { useNewUrlParser: true });

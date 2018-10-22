@@ -5,6 +5,8 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import TravelCard from './TravelCard.js'
 import frontImg from './images/cali.jpeg'
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 
 const styles = {
   root: {
@@ -41,6 +43,22 @@ const styles = {
 
 class Home extends Component {
 
+  addTravel = () => {
+    let data = {title:'random travel', description:'bouyah'}
+    fetch('/travels/add',
+    {
+          method: "POST",
+          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: "same-origin", // include, same-origin, *omit
+          headers: {
+              "Content-Type": "application/json; charset=utf-8",
+          },
+          body: JSON.stringify(data), // body data type must match "Content-Type" header
+      })
+      .then(data => data.json())
+      .then(data => console.log(data))
+  }
+
   render() {
     const { classes, travels } = this.props;
     return (
@@ -63,6 +81,16 @@ class Home extends Component {
                 />
               </Grid>
             )}
+            <Grid item>
+              <Button
+                onClick={ this.addTravel }
+                variant="fab"
+                color="secondary"
+                aria-label="Add"
+              >
+                <AddIcon />
+              </Button>
+            </Grid>
             </Grid>
           </Paper>
         </div>
