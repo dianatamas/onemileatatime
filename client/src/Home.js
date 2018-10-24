@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -45,7 +45,7 @@ class Home extends Component {
 
   addTravel = () => {
     let data = {title:'random travel', description:'bouyah'}
-    fetch('/travels/add',
+    /*fetch('/travels/add',
     {
           method: "POST",
           cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -56,12 +56,15 @@ class Home extends Component {
           body: JSON.stringify(data), // body data type must match "Content-Type" header
       })
       .then(data => data.json())
-      .then(data => console.log(data))
+      .then(data => console.log(data))*/
   }
+
+
 
   render() {
     const { classes, travels } = this.props;
     return (
+      <Fragment>
       <div>
         <img src={frontImg} className={classes.images} />
         <div className={classes.displayMiddle}>
@@ -95,6 +98,8 @@ class Home extends Component {
           </Paper>
         </div>
       </div>
+
+      </Fragment>
     )
   }
 }
