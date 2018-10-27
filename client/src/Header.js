@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import { Link } from "react-router-dom";
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import FlightIcon from '@material-ui/icons/Flight';
+import React, { Component } from 'react'
+import { withStyles } from '@material-ui/core/styles'
+import { Link } from "react-router-dom"
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import FlightIcon from '@material-ui/icons/Flight'
 
 const styles = {
   grow: {
@@ -24,15 +24,16 @@ const styles = {
 class Header extends Component {
 
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
+
     return (
       <AppBar position="static">
         <Toolbar>
-          <Link to='/' className={classes.link}>
-            <FlightIcon className={classes.icons}/>
+          <Link to='/' className={ classes.link }>
+            <FlightIcon className={ classes.icons }/>
           </Link>
-          <Link to='/' className={classes.link}>
-            <Typography variant="headline" color="inherit" className={classes.grow}>
+          <Link to='/' className={ classes.link }>
+            <Typography variant="headline" color="inherit" className={ classes.grow }>
               Wanderlust
             </Typography>
           </Link>
@@ -42,4 +43,4 @@ class Header extends Component {
   }
 }
 
-export default withStyles(styles)(Header);
+export default withStyles(styles)(Header)

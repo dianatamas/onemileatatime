@@ -6,7 +6,6 @@ import Travel from './models/travel';
 
 // Create the instances
 const app = express();
-const router = express.Router();
 const travelRouter = express.Router();
 
 // Set up images folder to serve images
@@ -16,22 +15,28 @@ app.use('/images', express.static('images'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Set the route path & initialize the API
-router.get('/', (req, res) => {
+travelRouter.get('/', (req, res) => {
   Travel.find((err, travels) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: travels });
   });
 });
-// Use our router configuration when we call /api
-app.use('/api', router);
 
 travelRouter.post('/add', (req, res) => {
   console.log('api done');
   let travel = new Travel(req.body);
   travel.save();
   res.status(201).send(travel)
-})
+});
+
+travelRouter.put('/edit/:id', (req, res) => {
+  let id = req.params.id
+  Travel.updateOne({ _id: id }, { $set: req.body}, (err, rawResponse) => Travel.find((err, travels) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: travels });
+  }));
+});
+
 app.use('/travels', travelRouter);
 
 // Connect to MongoDB

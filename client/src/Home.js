@@ -1,12 +1,13 @@
-import React, { Component, Fragment } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import React, { Component, Fragment } from 'react'
+import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
 import TravelCard from './TravelCard.js'
 import frontImg from './images/cali.jpeg'
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
+import Button from '@material-ui/core/Button'
+import AddIcon from '@material-ui/icons/Add'
+import AddTravelWizard from './AddTravelWizard'
 
 const styles = {
   root: {
@@ -43,65 +44,58 @@ const styles = {
 
 class Home extends Component {
 
-  addTravel = () => {
-    let data = {title:'random travel', description:'bouyah'}
-    /*fetch('/travels/add',
-    {
-          method: "POST",
-          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-          credentials: "same-origin", // include, same-origin, *omit
-          headers: {
-              "Content-Type": "application/json; charset=utf-8",
-          },
-          body: JSON.stringify(data), // body data type must match "Content-Type" header
-      })
-      .then(data => data.json())
-      .then(data => console.log(data))*/
+  state = {
+    showAddDialog: false,
   }
 
+  openAddWizard = () => {
+    this.setState({ showAddDialog: true })
+  }
 
+  closeAddWizard = () => {
+    this.setState({ showAddDialog: false })
+  }
 
   render() {
-    const { classes, travels } = this.props;
+    const { classes, travels } = this.props
+
     return (
       <Fragment>
-      <div>
-        <img src={frontImg} className={classes.images} />
-        <div className={classes.displayMiddle}>
-          <h1><span className={classes.blackBox}>my</span> <span className={classes.lightFont}>Travels</span></h1>
-        </div>
-
-        <div id='travels'>
-          <Paper className={classes.padding32}>
-            <Typography variant="headline" gutterBottom>
-              Travels
-            </Typography>
-            <Grid container spacing={24}>
-            {travels.map(travel =>
-              <Grid item key={travel._id}>
-                <TravelCard
-                  travel={ travel }
-                />
+        <div>
+          <img src={ frontImg } alt='' className={ classes.images } />
+          <div className={ classes.displayMiddle }>
+            <h1><span className={ classes.blackBox }>my</span><span className={ classes.lightFont }>Travels</span></h1>
+          </div>
+          <div id='travels'>
+            <Paper className={ classes.padding32 }>
+              <Typography variant="headline" gutterBottom>Travels</Typography>
+              <Grid container spacing={ 24 } alignItems={ 'center' }>
+              {travels.map(travel =>
+                <Grid item key={ travel._id }>
+                  <TravelCard travel={ travel } />
+                </Grid>
+              )}
+                <Grid item>
+                  <Button
+                    onClick={ this.openAddWizard }
+                    variant="fab"
+                    color="secondary"
+                    aria-label="Add"
+                  >
+                    <AddIcon />
+                  </Button>
+                </Grid>
               </Grid>
-            )}
-            <Grid item>
-              <Button
-                onClick={ this.addTravel }
-                variant="fab"
-                color="secondary"
-                aria-label="Add"
-              >
-                <AddIcon />
-              </Button>
-            </Grid>
-            </Grid>
-          </Paper>
+            </Paper>
+          </div>
         </div>
-      </div>
-
+        <AddTravelWizard
+          open={ this.state.showAddDialog }
+          onClose={ this.closeAddWizard }
+        />
       </Fragment>
     )
   }
 }
 
-export default withStyles(styles)(Home);
+export default withStyles(styles)(Home)

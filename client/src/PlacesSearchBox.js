@@ -1,62 +1,59 @@
-import React, { Component } from 'react';
-import Select from 'react-select';
+import React, { Component } from 'react'
+import Select from 'react-select'
 
 export default class PlacesSearchBox extends Component {
 
   state = {
-    predictions: []
+    predictions: [], // List of predictions returned by the Maps API
   }
 
-  handlePlaceSearch = (e) => {
-    let value=e
+  // Get predictions from the Maps API based on user input
+  handlePlaceSearch = (value) => {
     if(this.props.mapsLoaded && value !== '') {
-      let service = new window.google.maps.places.AutocompleteService();
+      let service = new window.google.maps.places.AutocompleteService()
       service.getPlacePredictions(
         {input: value},
         predictions => {
           if(predictions !== null ) {
             predictions = predictions.map(pred => pred = {value: pred.place_id, label: pred.description})
-            this.setState({ predictions }, () => console.log(this.state.predictions))
+            this.setState({ predictions })
           }
         }
       )
     }
-    else if (value == '') {
+    else if (value === '') {
         this.setState({ predictions: [] })
     }
   }
 
-  handleAddPlace = (e) => {
-    if(e !== null) {
-      let place_id = e.value
+  // Add new place on the map
+  handleAddPlace = (place) => {
+    if(place !== null) {
+      let place_id = place.value
       let map = this.props.map
-      let marker = new window.google.maps.Marker({
-          map: map
-      });
-      let geocoder = new window.google.maps.Geocoder
+      // Use the Geocoder API to get the long and lat of the place
+      let geocoder = new window.google.maps.Geocoder()
       geocoder.geocode({'placeId': place_id}, (results, status) => {
         if (status !== 'OK') {
-          window.alert('Geocoder failed due to: ' + status);
-          return;
+          console.log('Geocoder failed due to: ' + status)
+          return
         }
-        // Set the position of the marker using the place ID and location.
+        // Set the position of the marker using results from the Geocoder
         let marker = new window.google.maps.Marker({
           position: results[0].geometry.location,
           map: map,
           icon: '/images/pin.png'
-        });
-        var bounds = map.getBounds();
-        bounds.extend(marker.position);
-        marker.setVisible(true);
-        map.fitBounds(bounds);
-        this.props.closeDialog();
+        })
+        let bounds = map.getBounds()
+        bounds.extend(marker.position)
+        marker.setVisible(true)
+        map.fitBounds(bounds)
+        this.props.closeDialog()
       })
     }
   }
 
   render () {
-    const { predictions, handlePlaceSearch, handleAddPlace } = this.props
-
     return (
       <Select
         options={ this.state.predictions }
