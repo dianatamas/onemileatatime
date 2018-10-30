@@ -92,6 +92,7 @@ class Home extends Component {
         <AddTravelWizard
           open={ this.state.showAddDialog }
           onClose={ this.closeAddWizard }
+          addTravel={ this.props.addTravel }
         />
       </Fragment>
     )

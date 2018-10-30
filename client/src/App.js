@@ -53,13 +53,28 @@ export default class App extends Component {
   // Update an existing travel and reload the list of travels
   updateTravel = (id, edit) => {
     fetch('/travels/edit/'+id, {
-      method: "PUT",
+      method: "POST",
+      credentials: "same-origin",
       headers: {"Content-Type": "application/json; charset=utf-8"},
-      body: JSON.stringify(edit)}
-    )
+      body: JSON.stringify(edit)
+    })
     .then(data => data.json())
-    .then((res) => {
-      this.setState({ travels: res.data })
+    .then((data) => {
+      this.setState({ travels: data })
+    })
+  }
+
+  // Add a new travel and reload the list of travels
+  addTravel = (data) => {
+    fetch('/travels/add', {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {"Content-Type": "application/json; charset=utf-8"},
+      body: JSON.stringify(data),
+    })
+    .then(data => data.json())
+    .then((data) => {
+      this.setState({ travels: data })
     })
   }
 
@@ -70,7 +85,12 @@ export default class App extends Component {
         <Switch>
           <Route
             exact path='/'
-            render={() => <Home travels={ this.state.travels }/>}
+            render={() =>
+              <Home
+                travels={ this.state.travels }
+                addTravel={ this.addTravel }
+              />
+            }
           />
           <Route
             path='/travels/:id'

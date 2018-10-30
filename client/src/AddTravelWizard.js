@@ -77,20 +77,9 @@ class AddTravelWizard extends Component {
   };
 
   addTravel = () => {
-
     let data = Object.assign({}, this.state.travel)
-    fetch('/travels/add',
-    {
-          method: "POST",
-          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-          credentials: "same-origin", // include, same-origin, *omit
-          headers: {
-              "Content-Type": "application/json; charset=utf-8",
-          },
-          body: JSON.stringify(data), // body data type must match "Content-Type" header
-      })
-      .then(data => data.json())
-      .then(data => console.log(data))
+    this.props.addTravel(data)
+    this.props.onClose()
   }
 
   render () {

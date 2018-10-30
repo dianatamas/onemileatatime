@@ -20,18 +20,23 @@ travelRouter.get('/', (req, res) => {
   Travel.find((err, travels) => {
     if (err) res.status(500).json({ error: err })
     else res.status(200).json(travels)
-  });
-});
+  })
+})
 
 // Add a travel to the database and send back the updated list of travels
 travelRouter.post('/add', (req, res) => {
-  let travel = new Travel(req.body);
-  travel.save();
-  Travel.find((err, travels) => {
+  let travel = new Travel()
+  travel.save()
+  Travel.create(req.body, (err, travel) => {
     if (err) res.status(500).json({ error: err })
-    else res.status(200).json(travels)
-  });
-});
+    else {
+      Travel.find((err, travels) => {
+        if (err) res.status(500).json({ error: err })
+        else res.status(200).json(travels)
+      })
+    }
+  })
+})
 
 // Edit an existing travel and send back the updated list of travels
 travelRouter.post('/edit/:id', (req, res) => {
@@ -65,10 +70,10 @@ travelRouter.delete('/delete/:id', (req, res) => {
 app.use('/travels', travelRouter)
 
 // Connect to MongoDB
-mongoose.connect(getSecret('dbUri'), { useNewUrlParser: true });
-let db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+mongoose.connect(getSecret('dbUri'), { useNewUrlParser: true })
+let db = mongoose.connection
+db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 // Set up the port
 const API_PORT = 3001;
-app.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`));
+app.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`))
