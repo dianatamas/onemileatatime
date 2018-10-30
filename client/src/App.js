@@ -45,8 +45,8 @@ export default class App extends Component {
   getTravels = () => {
     fetch('/travels/')
       .then(data => data.json())
-      .then((res) => {
-        this.setState({ travels: res.data })
+      .then((data) => {
+        this.setState({ travels: data })
       })
   }
 
