@@ -3,6 +3,7 @@ import Rating from 'react-rating'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
@@ -13,7 +14,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 import StarBorder from '@material-ui/icons/StarBorder'
 import Star from '@material-ui/icons/Star'
 import EditIcon from '@material-ui/icons/Edit'
-import EditTravelWindow from './EditTravelWindow'
+import TravelSummaryCardEdit from './TravelSummaryCardEdit'
 
 const styles = {
   tagDone: {
@@ -76,7 +77,8 @@ class TravelSummaryCard extends Component {
       <Fragment>
         <Card style={{ marginTop: 5 }}>
           <CardContent>
-            <Grid container alignItems={ 'center' } style={{ marginBottom:20 }}>
+            <TravelSummaryCardEdit travel={ this.props.travel } updateTravel={ this.props.updateTravel }/>
+            {/*<Grid container alignItems={ 'center' } style={{ marginBottom:20 }}>
               <Grid item>
                 <Typography variant='headline' style={{ fontWeight: 500, marginRight: 10 }} >
                   { travel.title.toUpperCase() }
@@ -139,15 +141,10 @@ class TravelSummaryCard extends Component {
                   Back
                 </Button>
               }
-            />
+            />*/}
           </CardContent>
         </Card>
-        <EditTravelWindow
-          open={ this.state.showEditDialog }
-          onClose={ this.closeEditDialog }
-          updateTravel={ this.props.updateTravel }
-          travel={ this.props.travel }
-        />
+
       </Fragment>
     )
   }

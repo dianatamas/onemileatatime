@@ -62,11 +62,11 @@ class TravelPage extends Component {
             />
           </Grid>
           <Grid item xs={ 12 } sm={ 9 } style={{ position: 'relative' }}>
-            <Map
+            {/*<Map
               id="myMap"
               travel={ this.props.travel }
               onMapLoad={map => this.setState({ map }) }
-              />
+              />*/}
               <Button
                 onClick={ this.openAddPlaceDialog }
                 variant="fab"
