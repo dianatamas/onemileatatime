@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Switch } from "react-router-dom"
+import { Route, Switch, withRouter } from "react-router-dom"
 import { createMuiTheme } from '@material-ui/core/styles'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import Header from './Header.js'
@@ -18,7 +18,7 @@ const theme = createMuiTheme({
   },
 })
 
-export default class App extends Component {
+class App extends Component {
 
   state = {
     travels: [], // List of existing travels
@@ -78,6 +78,19 @@ export default class App extends Component {
     })
   }
 
+  // Delete a travel, reload the list of travels and go back to Home page
+  deleteTravel = (id) => {
+    fetch('/travels/delete/'+id, {
+      method: "DELETE",
+      credentials: "same-origin",
+    })
+    .then(data => data.json())
+    .then((data) => {
+      this.setState({ travels: data })
+      this.props.history.push('/')
+    })
+  }
+
   render() {
     return (
       <MuiThemeProvider theme={ theme }>
@@ -99,6 +112,7 @@ export default class App extends Component {
                 travel={ this.state.travels.find((travel) => {return travel._id === props.match.params.id}) }
                 mapsLoaded={ this.state.mapsLoaded }
                 updateTravel={ this.updateTravel }
+                deleteTravel={ this.deleteTravel }
               />
             }
           />
@@ -107,3 +121,5 @@ export default class App extends Component {
     );
   }
 }
+
+export default withRouter(App)

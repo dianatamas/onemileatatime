@@ -3,18 +3,18 @@ import Rating from 'react-rating'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import Tooltip from '@material-ui/core/Tooltip'
 import MobileStepper from '@material-ui/core/MobileStepper'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 import StarBorder from '@material-ui/icons/StarBorder'
 import Star from '@material-ui/icons/Star'
 import EditIcon from '@material-ui/icons/Edit'
+import DeleteIcon from '@material-ui/icons/Delete'
 import TravelSummaryCardEdit from './TravelSummaryCardEdit'
+import BudgetBar from './BudgetBar'
 
 const styles = {
   tagDone: {
@@ -37,15 +37,17 @@ class TravelSummaryCard extends Component {
 
   state = {
     activeStep: 0,
-    showEditDialog: false,
+    showEditPane: false,
   }
 
-  openEditDialog = () => {
-    this.setState({ showEditDialog: true })
+  // Switch to Edit mode
+  showEditPane = () => {
+    this.setState({ showEditPane: true })
   }
 
-  closeEditDialog = () => {
-    this.setState({ showEditDialog: false })
+  // Switch to Read-only mode
+  closeEditPane = () => {
+    this.setState({ showEditPane: false })
   }
 
   // Show next picture
@@ -64,87 +66,92 @@ class TravelSummaryCard extends Component {
 
   render () {
     const { classes, travel } = this.props
-    const { activeStep } = this.state
+    const { activeStep, showEditPane } = this.state
     const maxSteps = 1
-
-    // Calculate relative flex-grow for budgets
-    const totalBudget = travel.housingBudget + travel.transportBudget + travel.otherBudget
-    const housingFlexGrow = travel.housingBudget / totalBudget
-    const transportFlexGrow = travel.transportBudget / totalBudget
-    const otherFlexGrow = travel.otherBudget / totalBudget
 
     return (
       <Fragment>
         <Card style={{ marginTop: 5 }}>
           <CardContent>
-            <TravelSummaryCardEdit travel={ this.props.travel } updateTravel={ this.props.updateTravel }/>
-            {/*<Grid container alignItems={ 'center' } style={{ marginBottom:20 }}>
-              <Grid item>
-                <Typography variant='headline' style={{ fontWeight: 500, marginRight: 10 }} >
-                  { travel.title.toUpperCase() }
-                </Typography>
-                <Button
-                  onClick={ this.openEditDialog }
-                  variant="fab"
-                  color="secondary"
-                  aria-label="Edit Travel"
-                >
-                  <EditIcon />
-                </Button>
-              </Grid>
-              <Grid item>
-                <div className={ classes.tagDone }>
-                  <Typography variant='button' style={{ color: 'white', fontWeight: 500 }}>
-                    { travel.status }
-                  </Typography>
-                </div>
-              </Grid>
-            </Grid>
-            <Rating
-              fractions={ 2 }
-              initialRating={ travel.rating }
-              emptySymbol={<StarBorder style={{ color: '#1976d2' }}/>}
-              fullSymbol={<Star style={{ color: '#1976d2' }}/>}
-            />
-            <Typography gutterBottom>{ travel.description }</Typography>
-            <Typography variant='subheading'>Budget</Typography>
-            <div style={{ display: 'flex', marginBottom: 30 }}>
-              <Tooltip title={'Housing Budget: ' + travel.housingBudget + ' £'}>
-                <div className={ classes.budgetBar } style={{ backgroundColor: '#1976d2', flexGrow: housingFlexGrow }}></div>
-              </Tooltip>
-              <Tooltip title={'Transport Budget: ' + travel.transportBudget + ' £'}>
-                <div className={ classes.budgetBar } style={{ backgroundColor: '#2196F3', flexGrow: transportFlexGrow }}></div>
-              </Tooltip>
-              <Tooltip title={'Other Budget: ' + travel.otherBudget + ' £'}>
-                <div className={ classes.budgetBar } style={{ backgroundColor: '#BBDEFB', flexGrow: otherFlexGrow }}></div>
-              </Tooltip>
-            </div>
-            <img
-              className={ classes.img }
-              alt=''
-              src={ travel.image }
-            />
-            <MobileStepper
-              steps={ maxSteps }
-              position="static"
-              activeStep={ activeStep }
-              className={ classes.mobileStepper }
-              nextButton={
-                <Button size="small" onClick={ this.handleNext } disabled={ activeStep === maxSteps - 1 }>
-                  Next
-                  <KeyboardArrowRight />
-                </Button>
-              }
-              backButton={
-                <Button size="small" onClick={ this.handleBack } disabled={ activeStep === 0 }>
-                  <KeyboardArrowLeft />
-                  Back
-                </Button>
-              }
-            />*/}
+            {showEditPane &&
+              <TravelSummaryCardEdit
+                travel={ this.props.travel }
+                updateTravel={ this.props.updateTravel }
+                closeEditPane={ this.closeEditPane }
+              />
+            }
+            {!showEditPane &&
+              <Fragment>
+                <Grid container alignItems={ 'center' } style={{ marginBottom:20 }}>
+                  <Grid item>
+                    <Typography variant='headline' style={{ fontWeight: 500, marginRight: 10 }} >
+                      { travel.title.toUpperCase() }
+                    </Typography>
+                    <Button
+                      onClick={ this.showEditPane }
+                      variant="fab"
+                      color="secondary"
+                      aria-label="Edit Travel"
+                    >
+                      <EditIcon />
+                    </Button>
+                    <Button
+                      onClick={ () => this.props.deleteTravel(travel._id) }
+                      variant="fab"
+                      color="secondary"
+                      aria-label="Delete Travel"
+                    >
+                      <DeleteIcon />
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    <div className={ classes.tagDone }>
+                      <Typography variant='button' style={{ color: 'white', fontWeight: 500 }}>
+                        { travel.status }
+                      </Typography>
+                    </div>
+                  </Grid>
+                </Grid>
+                <Rating
+                  fractions={ 2 }
+                  initialRating={ travel.rating }
+                  emptySymbol={<StarBorder style={{ color: '#1976d2' }}/>}
+                  fullSymbol={<Star style={{ color: '#1976d2' }}/>}
+                />
+                <Typography gutterBottom>{ travel.description }</Typography>
+                <Typography variant='subheading'>Budget</Typography>
+                <BudgetBar
+                  housingBudget={ travel.housingBudget }
+                  transportBudget={ travel.transportBudget }
+                  otherBudget={ travel.otherBudget }
+                />
+                <img
+                  className={ classes.img }
+                  alt=''
+                  src={ travel.image }
+                />
+                <MobileStepper
+                  steps={ maxSteps }
+                  position="static"
+                  activeStep={ activeStep }
+                  className={ classes.mobileStepper }
+                  nextButton={
+                    <Button size="small" onClick={ this.handleNext } disabled={ activeStep === maxSteps - 1 }>
+                      Next
+                      <KeyboardArrowRight />
+                    </Button>
+                  }
+                  backButton={
+                    <Button size="small" onClick={ this.handleBack } disabled={ activeStep === 0 }>
+                      <KeyboardArrowLeft />
+                      Back
+                    </Button>
+                  }
+                />
+              </Fragment>
+            }
           </CardContent>
         </Card>
-
       </Fragment>
     )
   }

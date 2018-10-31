@@ -59,6 +59,7 @@ class TravelPage extends Component {
             <TravelSummaryCard
               travel = { travel }
               updateTravel = { this.props.updateTravel }
+              deleteTravel = { this.props.deleteTravel }
             />
           </Grid>
           <Grid item xs={ 12 } sm={ 9 } style={{ position: 'relative' }}>
