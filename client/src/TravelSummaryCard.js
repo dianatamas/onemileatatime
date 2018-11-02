@@ -3,6 +3,7 @@ import Rating from 'react-rating'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
@@ -87,22 +88,20 @@ class TravelSummaryCard extends Component {
                     <Typography variant='headline' style={{ fontWeight: 500, marginRight: 10 }} >
                       { travel.title.toUpperCase() }
                     </Typography>
-                    <Button
+                    <IconButton
                       onClick={ this.showEditPane }
-                      variant="fab"
                       color="secondary"
                       aria-label="Edit Travel"
                     >
-                      <EditIcon />
-                    </Button>
-                    <Button
+                      <EditIcon fontSize='small'/>
+                    </IconButton>
+                    <IconButton
                       onClick={ () => this.props.deleteTravel(travel._id) }
-                      variant="fab"
                       color="secondary"
                       aria-label="Delete Travel"
                     >
-                      <DeleteIcon />
-                    </Button>
+                      <DeleteIcon fontSize='small'/>
+                    </IconButton>
                   </Grid>
                   <Grid item>
                     <div className={ classes.tagDone }>

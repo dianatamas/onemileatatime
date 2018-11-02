@@ -91,6 +91,48 @@ class App extends Component {
     })
   }
 
+  updatePlace = (travelId, placeId, edit) => {
+    let data = {travelId: travelId, placeId: placeId, place: edit}
+    fetch('/places/edit', {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {"Content-Type": "application/json; charset=utf-8"},
+      body: JSON.stringify(data),
+    })
+    .then(data => data.json())
+    .then((data) => {
+      this.setState({ travels: data })
+    })
+  }
+
+  addPlace = (travelId, place) => {
+    let data = {travelId: travelId, place: place}
+    fetch('/places/add', {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {"Content-Type": "application/json; charset=utf-8"},
+      body: JSON.stringify(data),
+    })
+    .then(data => data.json())
+    .then((data) => {
+      this.setState({ travels: data })
+    })
+  }
+
+  deletePlace = (travelId, placeId) => {
+    let data = {travelId: travelId, placeId: placeId}
+    fetch('/places/delete/', {
+      method: "DELETE",
+      credentials: "same-origin",
+      headers: {"Content-Type": "application/json; charset=utf-8"},
+      body: JSON.stringify(data),
+    })
+    .then(data => data.json())
+    .then((data) => {
+      this.setState({ travels: data })
+    })
+  }
+
   render() {
     return (
       <MuiThemeProvider theme={ theme }>
@@ -113,6 +155,9 @@ class App extends Component {
                 mapsLoaded={ this.state.mapsLoaded }
                 updateTravel={ this.updateTravel }
                 deleteTravel={ this.deleteTravel }
+                addPlace={ this.addPlace }
+                deletePlace={ this.deletePlace }
+                updatePlace={ this.updatePlace }
               />
             }
           />

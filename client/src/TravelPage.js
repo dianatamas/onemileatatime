@@ -45,6 +45,18 @@ class TravelPage extends Component {
     this.setState({ addPlaceDialog: false })
   }
 
+  addPlace = (place) => {
+    this.props.addPlace(this.props.travel._id, place)
+  }
+
+  deletePlace = (placeId) => {
+    this.props.deletePlace(this.props.travel._id, placeId)
+  }
+
+  updatePlace = (placeId, edit) => {
+    this.props.updatePlace(this.props.travel._id, placeId, edit)
+  }
+
   render () {
     const { classes, mapsLoaded, travel } = this.props
 
@@ -63,11 +75,13 @@ class TravelPage extends Component {
             />
           </Grid>
           <Grid item xs={ 12 } sm={ 9 } style={{ position: 'relative' }}>
-            {/*<Map
+            {<Map
               id="myMap"
               travel={ this.props.travel }
               onMapLoad={map => this.setState({ map }) }
-              />*/}
+              deletePlace={ this.deletePlace }
+              updatePlace={ this.updatePlace }
+              />}
               <Button
                 onClick={ this.openAddPlaceDialog }
                 variant="fab"
@@ -102,6 +116,7 @@ class TravelPage extends Component {
               mapsLoaded={ this.props.mapsLoaded }
               map={ this.state.map }
               closeDialog={ this.closeAddPlaceDialog }
+              addPlace={ this.addPlace }
             />
           </DialogContent>
         </Dialog>

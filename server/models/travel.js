@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const PlacesSchema = new Schema({
+  placeId: String,
   name: String,
   lat: Number,
   lng: Number,

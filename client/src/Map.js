@@ -219,7 +219,8 @@ export default class Map extends Component {
         position: { lat: e.latLng.lat(), lng: e.latLng.lng() }
     })
     infoWindow.addListener('domready', e => {
-      render(<InfoCard place={ place }/>, document.getElementById('infoCard'))
+      render(<InfoCard place={ place } deletePlace={ this.props.deletePlace } updatePlace={ this.props.updatePlace }
+        />, document.getElementById('infoCard'))
     })
     infoWindow.open(map)
   }

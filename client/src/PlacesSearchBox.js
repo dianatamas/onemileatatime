@@ -29,7 +29,9 @@ export default class PlacesSearchBox extends Component {
   // Add new place on the map
   handleAddPlace = (place) => {
     if(place !== null) {
+      console.log(place)
       let place_id = place.value
+      let place_label = place.label
       let map = this.props.map
       // Use the Geocoder API to get the long and lat of the place
       let geocoder = new window.google.maps.Geocoder()
@@ -49,6 +51,13 @@ export default class PlacesSearchBox extends Component {
         marker.setVisible(true)
         map.fitBounds(bounds)
         this.props.closeDialog()
+        console.log(results[0])
+        let place = {
+          name: place_label,
+          lat: results[0].geometry.location.lat(),
+          lng: results[0].geometry.location.lng(),
+        }
+        this.props.addPlace(place)
       })
     }
   }
