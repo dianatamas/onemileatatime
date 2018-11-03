@@ -7,7 +7,7 @@ import TravelCard from './TravelCard.js'
 import frontImg from './images/cali.jpeg'
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add'
-import AddTravelWizard from './AddTravelWizard'
+import AddTravelWizard from './AddTravel/AddTravelWizard'
 
 const styles = {
   root: {

@@ -66,6 +66,8 @@ class App extends Component {
 
   // Add a new travel and reload the list of travels
   addTravel = (data) => {
+    console.log('adding...')
+    console.log(data)
     fetch('/travels/add', {
       method: "POST",
       credentials: "same-origin",

@@ -27,7 +27,6 @@ travelRouter.get('/', (req, res) => {
 // Add a travel to the database and send back the updated list of travels
 travelRouter.post('/add', (req, res) => {
   let travel = new Travel()
-  travel.save()
   Travel.create(req.body, (err, travel) => {
     if (err) res.status(500).json({ error: err })
     else {

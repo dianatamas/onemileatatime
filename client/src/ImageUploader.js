@@ -1,6 +1,7 @@
-import React, { Component, Fragment } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Dropzone from 'react-dropzone';
+import React, { Component, Fragment } from 'react'
+import { withStyles } from '@material-ui/core/styles'
+import LinearProgress from '@material-ui/core/LinearProgress'
+import Dropzone from 'react-dropzone'
 
 const styles = {
 
@@ -13,48 +14,51 @@ class ImageUploader extends Component {
 
   state = {
     uploadedFileUrl: '',
+    loading: false,
   }
 
   onImageDrop = (files) => {
     // Handle image upload here
+    this.setState({ loading: true })
     let uploadedFile = files[0]
-    var fd = new FormData();
-    fd.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-    fd.append('file', uploadedFile);
+    var fd = new FormData()
+    fd.append('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+    fd.append('file', uploadedFile)
     fetch(CLOUDINARY_UPLOAD_URL,
-    {
-          method: "POST",
-          body: fd,
-      })
-      .then(data => data.json())
-      .then(data => {
-        this.setState({ uploadedFileUrl: data.secure_url});
-        this.props.saveUrl(data.secure_url)
-      })
-
+      {
+        method: "POST",
+        body: fd,
+      }
+    )
+    .then(data => data.json())
+    .then(data => {
+      this.setState({ uploadedFileUrl: data.secure_url, loading: false})
+      this.props.saveUrl(data.secure_url)
+    })
   }
 
   render () {
-
-    const { classes } = this.props
-
     return (
-      <div style={{display: 'flex'}}>
-        <Dropzone
-          multiple={ false }
-          style={{height: 150, width: 150, margin: 20}}
-          accept="image/*"
-          onDrop={ this.onImageDrop }>
-          <p>Drop an image or click to select a file to upload.</p>
-        </Dropzone>
-        {this.state.uploadedFileUrl !== '' &&
-          <img
-            src={this.state.uploadedFileUrl}
-            height={180}
-            width={330}
-          />
-        }
-      </div>
+      <Fragment>
+        { this.state.loading && <LinearProgress color='secondary'/> }
+        <div style={ {display: 'flex', flexDirection: 'column'} }>
+          <Dropzone
+            multiple={ false }
+            style={ {height: 80, width: 130, margin: 10, border: '3px dotted black'} }
+            accept="image/*"
+            onDrop={ this.onImageDrop }>
+            <p style={ {margin: 10} }>Drop an image or click to upload a file</p>
+          </Dropzone>
+          { this.state.uploadedFileUrl !== '' &&
+            <img
+              src={ this.state.uploadedFileUrl }
+              alt=''
+              height={ 180 }
+              width={ 330 }
+            />
+          }
+        </div>
+      </Fragment>
     )
   }
 }
