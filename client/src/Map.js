@@ -213,6 +213,10 @@ const options = {
 
 export default class Map extends Component {
 
+  state = {
+    infoWindow: null
+  }
+
   createInfoWindow = (e, place,  map) => {
     const infoWindow = new window.google.maps.InfoWindow({
         content: '<div id="infoCard" />',
@@ -223,6 +227,8 @@ export default class Map extends Component {
         />, document.getElementById('infoCard'))
     })
     infoWindow.open(map)
+    if (this.state.infoWindow) this.state.infoWindow.close()
+    this.setState({ infoWindow })
   }
 
   createMarkers = (map) => {
@@ -258,6 +264,12 @@ export default class Map extends Component {
 
   componentDidMount() {
     this.onScriptLoad()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.travel !== prevProps.travel) {
+      this.onScriptLoad()
+    }
   }
 
   render() {

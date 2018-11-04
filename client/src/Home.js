@@ -72,7 +72,7 @@ class Home extends Component {
               <Grid container spacing={ 24 } alignItems={ 'center' }>
               {travels.map(travel =>
                 <Grid item key={ travel._id }>
-                  <TravelCard travel={ travel } />
+                  <TravelCard travel={ travel } deleteTravel={ this.props.deleteTravel }/>
                 </Grid>
               )}
                 <Grid item>

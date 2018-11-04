@@ -29,7 +29,6 @@ export default class PlacesSearchBox extends Component {
   // Add new place on the map
   handleAddPlace = (place) => {
     if(place !== null) {
-      console.log(place)
       let place_id = place.value
       let place_label = place.label
       let map = this.props.map
@@ -40,18 +39,7 @@ export default class PlacesSearchBox extends Component {
           console.log('Geocoder failed due to: ' + status)
           return
         }
-        // Set the position of the marker using results from the Geocoder
-        let marker = new window.google.maps.Marker({
-          position: results[0].geometry.location,
-          map: map,
-          icon: '/images/pin.png'
-        })
-        let bounds = map.getBounds()
-        bounds.extend(marker.position)
-        marker.setVisible(true)
-        map.fitBounds(bounds)
         this.props.closeDialog()
-        console.log(results[0])
         let place = {
           name: place_label,
           lat: results[0].geometry.location.lat(),

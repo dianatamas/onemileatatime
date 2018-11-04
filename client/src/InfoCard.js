@@ -1,16 +1,17 @@
 import React, { Fragment } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
-import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
 import CardHeader from '@material-ui/core/CardHeader'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
 import Rating from 'react-rating'
 import StarBorder from '@material-ui/icons/StarBorder'
 import Star from '@material-ui/icons/Star'
+import LoupeIcon from '@material-ui/icons/Loupe'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
 import InfoCardEdit from './InfoCardEdit'
@@ -18,10 +19,10 @@ import InfoCardEdit from './InfoCardEdit'
 const styles = {
   card: {
     width: 345,
-    height: 300
+    height: 340
   },
   content: {
-    height: 150
+    height: 120
   },
   media: {
     height: 0,
@@ -33,6 +34,7 @@ class InfoCard extends React.Component {
 
   state = {
     showEditPane: false,
+    tab: 0,
   }
 
   // Switch to Edit mode
@@ -44,6 +46,10 @@ class InfoCard extends React.Component {
   closeEditPane = () => {
     this.setState({ showEditPane: false })
   }
+
+  handleTabChange = (event, tab) => {
+    this.setState({ tab });
+  };
 
   render () {
     const { classes, place } = this.props
@@ -60,17 +66,37 @@ class InfoCard extends React.Component {
               :
               <Fragment>
                 <CardHeader title={place.name} />
+                <Tabs
+                  value={this.state.tab}
+                  onChange={this.handleTabChange}
+                  fullWidth
+                  indicatorColor="secondary"
+                  textColor="secondary"
+                >
+                  <Tab icon={<Star />} label="REVIEW" />
+                  <Tab icon={<LoupeIcon />} label="TIPS" />
+                </Tabs>
+
                 <CardContent className={classes.content}>
-                  <Rating
-                    fractions={ 2 }
-                    initialRating={ place.rating }
-                    emptySymbol={<StarBorder style={{ color: '#1976d2' }}/>}
-                    fullSymbol={<Star style={{ color: '#1976d2' }}/>}
-                    readonly
-                  />
-                  <Typography gutterBottom>
-                    {place.comment}
-                  </Typography>
+                  {this.state.tab === 0 &&
+                    <Fragment>
+                      <Rating
+                        fractions={ 2 }
+                        initialRating={ place.rating }
+                        emptySymbol={<StarBorder style={{ color: '#1976d2' }}/>}
+                        fullSymbol={<Star style={{ color: '#1976d2' }}/>}
+                        readonly
+                      />
+                      <Typography gutterBottom>
+                        {place.comment}
+                      </Typography>
+                    </Fragment>
+                    }
+                  {this.state.tab === 1 &&
+                    <Typography gutterBottom>
+                      {place.tip}
+                    </Typography>
+                  }
                 </CardContent>
                 <CardActions>
                   <IconButton

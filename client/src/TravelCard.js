@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Fragment, Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Link } from "react-router-dom"
 import Typography from '@material-ui/core/Typography'
@@ -8,6 +8,7 @@ import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
+import DeleteTravelConfirmation from './DeleteTravelConfirmation'
 
 const styles = {
   card: {
@@ -20,10 +21,28 @@ const styles = {
 }
 
 class TravelCard extends Component {
+
+  state = {
+    openConfirmation: false
+  }
+
+  openConfirmation = () => {
+    this.setState({ openConfirmation: true })
+  }
+
+  closeConfirmation = () => {
+    this.setState({ openConfirmation: false })
+  }
+
+  onConfirmation = () => {
+    this.props.deleteTravel(this.props.travel._id)
+  }
+
   render() {
     const { classes, travel } = this.props
 
     return (
+      <Fragment>
       <Card className={ classes.card }>
         <CardActionArea>
           <CardMedia
@@ -47,8 +66,18 @@ class TravelCard extends Component {
               Explore
             </Button>
           </Link>
+          <Button size="small" color="primary" onClick={ this.openConfirmation }>
+            Delete
+          </Button>
         </CardActions>
       </Card>
+      <DeleteTravelConfirmation
+        open={ this.state.openConfirmation }
+        onClose={ this.closeConfirmation }
+        onConfirmation={ this.onConfirmation }
+        title={ travel.title }
+      />
+      </Fragment>
     )
   }
 }

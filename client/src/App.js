@@ -146,6 +146,7 @@ class App extends Component {
               <Home
                 travels={ this.state.travels }
                 addTravel={ this.addTravel }
+                deleteTravel={ this.deleteTravel }
               />
             }
           />

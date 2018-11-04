@@ -50,7 +50,7 @@ class AddTravelWizard extends Component {
     let newField = {}
     newField[field] = value
     let travel = Object.assign({}, this.state.travel, newField)
-    this.setState({travel}, () => console.log(this.state.travel))
+    this.setState({travel})
   }
 
   handleNext = () => {
@@ -60,16 +60,20 @@ class AddTravelWizard extends Component {
     else {
       this.setState(state => ({
         activeStep: state.activeStep + 1,
-      }));
+      }))
     }
-
-  };
+  }
 
   handleBack = () => {
     this.setState(state => ({
       activeStep: state.activeStep - 1,
-    }));
-  };
+    }))
+  }
+
+  handleClose = () => {
+    this.setState({ travel: {status: 0, rating: 0}, imgUrl:'', activeStep: 0 })
+    this.props.onClose()
+  }
 
   addTravel = () => {
     let data = Object.assign({}, this.state.travel)
@@ -78,13 +82,13 @@ class AddTravelWizard extends Component {
   }
 
   render () {
-    const { classes, open, onClose } = this.props
+    const { classes, open } = this.props
     const { activeStep } = this.state
 
     return (
       <Dialog
         open={ open }
-        onClose={ onClose }
+        onClose={ this.handleClose }
         maxWidth={ 'md' }
         PaperProps={{ style: {width: '30%', height:'60%'} }}
       >
