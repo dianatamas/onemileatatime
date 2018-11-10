@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { Link } from "react-router-dom"
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
+import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import FlightIcon from '@material-ui/icons/Flight'
 
@@ -23,6 +24,13 @@ const styles = {
 
 class Header extends Component {
 
+  auth = () => {
+    fetch('/auth/google/', {
+      method: "GET",
+      mode: 'no-cors'
+    })
+  }
+
   render() {
     const { classes } = this.props
 
@@ -37,6 +45,9 @@ class Header extends Component {
               Wanderlust
             </Typography>
           </Link>
+            <Button href="http://localhost:3001/auth/google" variant='raised' color='secondary'>
+              Sign in
+            </Button>
         </Toolbar>
       </AppBar>
     )

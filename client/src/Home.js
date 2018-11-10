@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
@@ -8,6 +9,7 @@ import frontImg from './images/cali.jpeg'
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add'
 import AddTravelWizard from './AddTravel/AddTravelWizard'
+import queryString from "query-string";
 
 const styles = {
   root: {
@@ -56,6 +58,15 @@ class Home extends Component {
     this.setState({ showAddDialog: false })
   }
 
+  componentWillMount() {
+    var query = queryString.parse(this.props.location.search);
+    console.log(query)
+    if (query.token) {
+      window.localStorage.setItem("jwt", query.token);
+      this.props.history.push("/");
+   }
+}
+
   render() {
     const { classes, travels } = this.props
 
@@ -99,4 +110,4 @@ class Home extends Component {
   }
 }
 
-export default withStyles(styles)(Home)
+export default withRouter(withStyles(styles)(Home))

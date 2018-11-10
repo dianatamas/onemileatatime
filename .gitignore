@@ -5,7 +5,7 @@
 /server/node_modules
 
 #secrets
-/server/secrets.js
+/server/config/secrets.js
 /client/key.js
 
 # testing

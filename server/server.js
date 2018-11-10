@@ -1,149 +1,28 @@
 import express from 'express'
+import passport from 'passport'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
-import { getSecret } from './secrets'
-import Travel from './models/travel'
+import { getSecret } from './config/secrets'
+import travelRouter from './routes/travelRoutes'
+import placeRouter from './routes/placeRoutes'
+import authRouter from './routes/authRoutes'
 
-// Create the instances
+// Create the express app
 const app = express()
-const travelRouter = express.Router()
-const placeRouter = express.Router()
-
-// Set up images folder to serve images
-app.use('/images', express.static('images'))
 
 // Configure API to use bodyParser and look for JSON data in the request body
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-// Get the list of all existing travels
-travelRouter.get('/', (req, res) => {
-  Travel.find((err, travels) => {
-    if (err) res.status(500).json({ error: err })
-    else res.status(200).json(travels)
-  })
-})
+// Set up authentication
+app.use(passport.initialize())
+require("./config/passport")
 
-// Add a travel to the database and send back the updated list of travels
-travelRouter.post('/add', (req, res) => {
-  let travel = new Travel()
-  Travel.create(req.body, (err, travel) => {
-    if (err) res.status(500).json({ error: err })
-    else {
-      Travel.find((err, travels) => {
-        if (err) res.status(500).json({ error: err })
-        else res.status(200).json(travels)
-      })
-    }
-  })
-})
-
-// Edit an existing travel and send back the updated list of travels
-travelRouter.post('/edit/:id', (req, res) => {
-  let id = req.params.id
-  Travel.updateOne({ _id: id }, { $set: req.body}, (err, rawResponse) => {
-    if (err) res.status(500).json({ error: err })
-    else {
-      Travel.find((err, travels) => {
-        if (err) res.status(500).json({ error: err })
-        else res.status(200).json(travels)
-      })
-    }
-  })
-})
-
-// Delete a travel and send back the updated list of travels
-travelRouter.delete('/delete/:id', (req, res) => {
-  let id = req.params.id
-  Travel.deleteOne({ _id: id }, (err) => {
-    if(err) res.status(500).json({ error: err })
-    else {
-      Travel.find((err, travels) => {
-        if (err) res.status(500).json({ error: err })
-        else res.status(200).json(travels)
-      })
-    }
-  })
-})
-
-// Set up the travelRouter
+// Set up routes
+app.use('/auth', authRouter)
 app.use('/travels', travelRouter)
-
-// Add a place to an existing travel and send back the updated list of travels
-placeRouter.post('/add', (req, res) => {
-  let travelId = req.body.travelId
-  let place = req.body.place
-  let travel = Travel.findById(travelId, function (err, travel) {
-    if (err) res.status(500).json({ error: err })
-    else {
-      travel.places.push(place)
-      travel.save(function (err) {
-        Travel.find((err, travels) => {
-          if (err) res.status(500).json({ error: err })
-          else res.status(200).json(travels)
-        })
-      })
-    }
-  })
-})
-
-placeRouter.post('/add', (req, res) => {
-  let travelId = req.body.travelId
-  let place = req.body.place
-  let travel = Travel.findById(travelId, function (err, travel) {
-    if (err) res.status(500).json({ error: err })
-    else {
-      travel.places.push(place)
-      travel.save(function (err) {
-        Travel.find((err, travels) => {
-          if (err) res.status(500).json({ error: err })
-          else res.status(200).json(travels)
-        })
-      })
-    }
-  })
-})
-
-placeRouter.delete('/delete', (req, res) => {
-  let travelId = req.body.travelId
-  let placeId = req.body.placeId
-  let travel = Travel.findById(travelId, function (err, travel) {
-    if (err) res.status(500).json({ error: err })
-    else {
-      travel.places.id(placeId).remove()
-      travel.save(function (err) {
-        Travel.find((err, travels) => {
-          if (err) res.status(500).json({ error: err })
-          else res.status(200).json(travels)
-        })
-      })
-    }
-  })
-})
-
-placeRouter.post('/edit', (req, res) => {
-  let travelId = req.body.travelId
-  let placeId = req.body.placeId
-  let editedPlace = req.body.place
-  let travel = Travel.findById(travelId, function (err, travel) {
-    if (err) res.status(500).json({ error: err })
-    else {
-      let place = travel.places.id(placeId)
-      console.log(place)
-      place = Object.assign(place, editedPlace)
-      console.log(place)
-      travel.save(function (err) {
-        Travel.find((err, travels) => {
-          if (err) res.status(500).json({ error: err })
-          else res.status(200).json(travels)
-        })
-      })
-    }
-  })
-})
-
-// Set up the placeRouter
 app.use('/places', placeRouter)
+app.use('/images', express.static('images'))
 
 // Connect to MongoDB
 mongoose.connect(getSecret('dbUri'), { useNewUrlParser: true })
