@@ -2,13 +2,21 @@ import express from 'express'
 import passport from 'passport'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
+import cookieSession from 'cookie-session'
 import { getSecret } from './config/secrets'
 import travelRouter from './routes/travelRoutes'
 import placeRouter from './routes/placeRoutes'
 import authRouter from './routes/authRoutes'
+require("./config/passport")
 
 // Create the express app
 const app = express()
+
+// Set up cookie cookieSession
+app.use(cookieSession({
+  maxAge: 24 * 60 * 60 * 1000,
+  keys: [getSecret('cookieKey')]
+}))
 
 // Configure API to use bodyParser and look for JSON data in the request body
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -16,13 +24,25 @@ app.use(bodyParser.json())
 
 // Set up authentication
 app.use(passport.initialize())
-require("./config/passport")
+app.use(passport.session())
+
+// If the user is not authenticated, redirect to Log In Page
+// Else, proceed to next step
+const authCheck = (req, res, next) => {
+  if(!req.user) {
+    res.redirect('http://localhost:3000/')
+  }
+  else {
+    next()
+  }
+}
 
 // Set up routes
+// For every route, check first that the user is authenticated
 app.use('/auth', authRouter)
-app.use('/travels', travelRouter)
-app.use('/places', placeRouter)
-app.use('/images', express.static('images'))
+app.use('/travels', authCheck, travelRouter)
+app.use('/places', authCheck, placeRouter)
+app.use('/images', authCheck, express.static('images'))
 
 // Connect to MongoDB
 mongoose.connect(getSecret('dbUri'), { useNewUrlParser: true })

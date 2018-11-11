@@ -1,13 +1,18 @@
 import { getSecret } from './secrets'
-var passport = require("passport")
+import User from '../models/user'
+import passport from 'passport'
 
 var GoogleStrategy = require("passport-google-oauth").OAuth2Strategy
-passport.serializeUser(function(user, done) {
- done(null, user);
-});
-passport.deserializeUser(function(user, done) {
- done(null, user);
-});
+
+passport.serializeUser((user, done) => {
+  done(null, user.id)
+})
+
+passport.deserializeUser((id, done) => {
+  User.findById(id)
+  .then((user) =>  done(null, user))
+})
+
 passport.use(
  new GoogleStrategy(
   {
@@ -15,14 +20,26 @@ passport.use(
    clientSecret: getSecret('googleClientSecret'),
    callbackURL: "http://localhost:3001/auth/google/callback"
   },
-  function(accessToken, refreshToken, profile, done) {
-   var userData = {
-    email: profile.emails[0].value,
-    name: profile.displayName,
-    token: accessToken
-   };
-   console.log(userData)
-   done(null, userData);
-  }
- )
-);
+  (accessToken, refreshToken, profile, done) => {
+    // check if user is already in db
+    User.findOne({googleId: profile.id})
+    .then((currentUser) => {
+      // check if user is already in db
+      if (currentUser) {
+        done(null, currentUser)
+      }
+      // if user doesn't already exist, create a new one
+      else {
+        new User({
+          googleId: profile.id,
+          name: profile.displayName,
+          token: accessToken
+        })
+        .save()
+        .then((newUser) => {
+          done(null, newUser)
+        })
+      }
+    })
+  })
+)

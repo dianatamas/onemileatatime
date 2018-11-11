@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import { Route, Switch, withRouter } from "react-router-dom"
+import { Route, Switch, Redirect, withRouter } from "react-router-dom"
+import { apiKey } from './key'
 import { createMuiTheme } from '@material-ui/core/styles'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import Header from './Header.js'
 import Home from './Home.js'
+import LoginPage from './LoginPage'
 import TravelPage from './TravelPage.js'
-import { apiKey } from './key'
+import Auth from './utils/Auth'
 
 const theme = createMuiTheme({
   palette: {
@@ -26,9 +28,6 @@ class App extends Component {
   }
 
   componentDidMount () {
-    // Load travels rom database
-    this.getTravels()
-
     // Load Google Maps API script
     var s = document.createElement('script')
     s.type = 'text/javascript'
@@ -66,8 +65,6 @@ class App extends Component {
 
   // Add a new travel and reload the list of travels
   addTravel = (data) => {
-    console.log('adding...')
-    console.log(data)
     fetch('/travels/add', {
       method: "POST",
       credentials: "same-origin",
@@ -93,6 +90,7 @@ class App extends Component {
     })
   }
 
+  // Update an existing place and reload the list of travels
   updatePlace = (travelId, placeId, edit) => {
     let data = {travelId: travelId, placeId: placeId, place: edit}
     fetch('/places/edit', {
@@ -107,6 +105,7 @@ class App extends Component {
     })
   }
 
+  // Add a new place to an existing travel and reload the list of travels
   addPlace = (travelId, place) => {
     let data = {travelId: travelId, place: place}
     fetch('/places/add', {
@@ -121,6 +120,7 @@ class App extends Component {
     })
   }
 
+  // Delete a place from an existing travel and reload the list of travels
   deletePlace = (travelId, placeId) => {
     let data = {travelId: travelId, placeId: placeId}
     fetch('/places/delete/', {
@@ -140,30 +140,68 @@ class App extends Component {
       <MuiThemeProvider theme={ theme }>
         <Header />
         <Switch>
+
+          <Route
+            exact path='/login'
+            render={ (props) =>
+              !Auth.isUserAuthenticated() ? (
+                <LoginPage />
+              ) : (
+                <Redirect
+                  to={{
+                    pathname: '/',
+                    state: { from: props.location },
+                  }}
+                />
+              )
+            }
+          />
+
           <Route
             exact path='/'
-            render={() =>
-              <Home
-                travels={ this.state.travels }
-                addTravel={ this.addTravel }
-                deleteTravel={ this.deleteTravel }
-              />
+            render={props =>
+              Auth.isUserAuthenticated() ? (
+                <Home
+                  travels={ this.state.travels }
+                  addTravel={ this.addTravel }
+                  deleteTravel={ this.deleteTravel }
+                  getTravels={ this.getTravels }
+                />
+              ) : (
+                <Redirect
+                  to={{
+                    pathname: '/login',
+                    state: { from: props.location },
+                  }}
+                />
+              )
             }
           />
+
           <Route
             path='/travels/:id'
-            render={ (props) =>
-              <TravelPage
-                travel={ this.state.travels.find((travel) => {return travel._id === props.match.params.id}) }
-                mapsLoaded={ this.state.mapsLoaded }
-                updateTravel={ this.updateTravel }
-                deleteTravel={ this.deleteTravel }
-                addPlace={ this.addPlace }
-                deletePlace={ this.deletePlace }
-                updatePlace={ this.updatePlace }
-              />
+            render={props =>
+              Auth.isUserAuthenticated() ? (
+                <TravelPage
+                  travel={ this.state.travels.find((travel) => {return travel._id === props.match.params.id}) }
+                  mapsLoaded={ this.state.mapsLoaded }
+                  updateTravel={ this.updateTravel }
+                  deleteTravel={ this.deleteTravel }
+                  addPlace={ this.addPlace }
+                  deletePlace={ this.deletePlace }
+                  updatePlace={ this.updatePlace }
+                />
+              ) : (
+                <Redirect
+                  to={{
+                    pathname: '/login',
+                    state: { from: props.location },
+                  }}
+                />
+              )
             }
           />
+
         </Switch>
       </MuiThemeProvider>
     );

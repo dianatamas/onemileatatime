@@ -9,7 +9,6 @@ import frontImg from './images/cali.jpeg'
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add'
 import AddTravelWizard from './AddTravel/AddTravelWizard'
-import queryString from "query-string";
 
 const styles = {
   root: {
@@ -58,13 +57,8 @@ class Home extends Component {
     this.setState({ showAddDialog: false })
   }
 
-  componentWillMount() {
-    var query = queryString.parse(this.props.location.search);
-    console.log(query)
-    if (query.token) {
-      window.localStorage.setItem("jwt", query.token);
-      this.props.history.push("/");
-   }
+  componentDidMount() {
+   this.props.getTravels()
 }
 
   render() {

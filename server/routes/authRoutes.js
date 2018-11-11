@@ -6,16 +6,20 @@ const authRouter = express.Router()
 /* GET Google Authentication API. */
 authRouter.get(
     "/google",
-    passport.authenticate("google", { scope: ["profile", "email"] })
+    passport.authenticate("google", { scope: ["profile"] })
 )
 
 authRouter.get(
     "/google/callback",
-    passport.authenticate("google", { failureRedirect: "/", session: false }),
+    passport.authenticate("google"),
     function(req, res) {
-        var token = req.user.token;
-        res.redirect("http://localhost:3000?token=" + token)
+      res.redirect('http://localhost:3000/login?token=' + req.user.token)
     }
 )
+
+authRouter.get('/logout', (req, res) => {
+  req.logout()
+  res.redirect('http://localhost:3000/login')
+})
 
 export default authRouter

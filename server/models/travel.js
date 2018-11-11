@@ -25,7 +25,8 @@ const TravelSchema = new Schema({
   otherBudget: Number,
   startDate: Date,
   endDate: Date,
-  places: [PlacesSchema]
+  places: [PlacesSchema],
+  user: String
 }, { timestamps: true });
 
 
