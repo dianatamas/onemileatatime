@@ -63,18 +63,17 @@ class TravelPage extends Component {
     // Show loading bar until Maps and props are laoded
     let travelPage =
       <div><LinearProgress color='secondary'/></div>
-
     if(mapsLoaded && travel !== undefined) {
       travelPage =
-        <Grid container spacing={ 8 } style={{ height: '100%' }}>
-          <Grid item xs={ 12 } sm={ 3 }>
+        <Grid container spacing={ 0 } style={{ height: '100%' }}>
+          <Grid item xs={ 12 } sm={ 3 } xs={ 0 }>
             <TravelSummaryCard
               travel = { travel }
               updateTravel = { this.props.updateTravel }
               deleteTravel = { this.props.deleteTravel }
             />
           </Grid>
-          <Grid item xs={ 12 } sm={ 9 } style={{ position: 'relative' }}>
+          <Grid item xs={ 12 } sm={ 9 } xs={ 12 } style={{ position: 'relative' }}>
             {<Map
               id="myMap"
               travel={ this.props.travel }

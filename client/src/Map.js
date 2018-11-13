@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import { apiKey } from './key';
 import InfoCard from './InfoCard'
 
 const mapStyles = [

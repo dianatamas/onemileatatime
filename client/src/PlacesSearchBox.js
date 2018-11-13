@@ -31,7 +31,6 @@ export default class PlacesSearchBox extends Component {
     if(place !== null) {
       let place_id = place.value
       let place_label = place.label
-      let map = this.props.map
       // Use the Geocoder API to get the long and lat of the place
       let geocoder = new window.google.maps.Geocoder()
       geocoder.geocode({'placeId': place_id}, (results, status) => {

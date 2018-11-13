@@ -57,10 +57,6 @@ class Home extends Component {
     this.setState({ showAddDialog: false })
   }
 
-  componentDidMount() {
-   this.props.getTravels()
-}
-
   render() {
     const { classes, travels } = this.props
 

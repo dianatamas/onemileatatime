@@ -38,6 +38,9 @@ class App extends Component {
     s.addEventListener('load', e => {
       this.setState({ mapsLoaded: true })
     })
+    if(Auth.isUserAuthenticated()) {
+      this.getTravels()
+    }
   }
 
   // Get the list of travels from the database

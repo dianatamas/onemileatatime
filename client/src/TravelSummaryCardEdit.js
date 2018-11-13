@@ -11,7 +11,13 @@ import Star from '@material-ui/icons/Star'
 import BudgetBar from './BudgetBar'
 
 const styles = {
-
+  status: {
+    width: 100
+  },
+  budget: {
+    width: 100,
+    marginBottom: 20
+  }
 }
 
 const statuses = [
@@ -43,75 +49,87 @@ class TravelSummaryCardEdit extends Component {
     const { classes, travel } = this.props
 
     return (
-          <Fragment>
-            <Grid container alignItems={ 'center' } style={{ marginBottom:20 }}>
-              <Grid item>
-
-                <TextField
-                  defaultValue={travel.title}
-                  label={'Title'}
-                  onChange={(e) => this.handleChange('title', e.target.value)}
-                />
-              </Grid>
-              <Grid item>
-                <TextField
-                  select
-                  label={'Status'}
-                  value={travel.status}
-                  onChange={(e) => this.handleChange('status', e.target.value)}
-                >
-                {statuses.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-                </TextField>
-              </Grid>
+        <Fragment>
+          <Grid container spacing={16} style={{ marginBottom:20 }} direction='column'>
+            <Typography variant='title' gutterBottom>Edit your travel</Typography>
+            <Grid item>
+              <TextField
+                defaultValue={travel.title}
+                label={'Title'}
+                onChange={(e) => this.handleChange('title', e.target.value)}
+              />
             </Grid>
-            <Rating
-              fractions={ 2 }
-              initialRating={ 'rating' in this.state.editedTravel ? this.state.editedTravel.rating : travel.rating }
-              onChange={(value) => this.handleChange('rating', value)}
-              emptySymbol={<StarBorder style={{ color: '#1976d2' }}/>}
-              fullSymbol={<Star style={{ color: '#1976d2' }}/>}
-            />
-            <TextField
-              defaultValue={travel.description}
-              label={'Description'}
-              multiline
-              onChange={(e) => this.handleChange('description', e.target.value)}
-            />
-            <Typography variant='subheading'>Budget</Typography>
-            <TextField
-              type='number'
-              label='Transport Budget'
-              defaultValue={travel.housingBudget}
-              onChange={(e) => this.handleChange('transportBudget', e.target.value)}
-            />
-            <TextField
-              type='number'
-              label='Housing Budget'
-              defaultValue={travel.transportBudget}
-              onChange={(e) => this.handleChange('housingBudget', e.target.value)}
-            />
-            <TextField
-              type='number'
-              label='Other Budget'
-              defaultValue={travel.otherBudget}
-              onChange={(e) => this.handleChange('otherBudget', e.target.value)}
-            />
-            <BudgetBar
-              housingBudget={ this.state.editedTravel.housingBudget }
-              transportBudget={ this.state.editedTravel.transportBudget }
-              otherBudget={ this.state.editedTravel.otherBudget }
-            />
-            <Button variant='raised' color='secondary' onClick={this.onSave}>
-              Save
-            </Button>
-            <Button onClick={ this.props.closeEditPane }>
-              Cancel
-            </Button>
-        </Fragment>
+            <Grid item>
+              <TextField
+                select
+                label={ 'Status' }
+                value={ travel.status }
+                onChange={ (e) => this.handleChange('status', e.target.value) }
+                className={ classes.status }
+              >
+              {statuses.map(option => (
+                <MenuItem key={ option.value } value={ option.value }>
+                  { option.label }
+                </MenuItem>
+              ))}
+              </TextField>
+            </Grid>
+            <Grid item>
+              <TextField
+                defaultValue={travel.description}
+                label={'Description'}
+                multiline
+                onChange={(e) => this.handleChange('description', e.target.value)}
+              />
+            </Grid>
+            <Grid item>
+              <Typography variant='subheading' gutterBottom>Rating</Typography>
+              <Rating
+                fractions={ 2 }
+                initialRating={ 'rating' in this.state.editedTravel ? this.state.editedTravel.rating : travel.rating }
+                onChange={(value) => this.handleChange('rating', value)}
+                emptySymbol={<StarBorder style={{ color: '#1976d2' }}/>}
+                fullSymbol={<Star style={{ color: '#1976d2' }}/>}
+              />
+            </Grid>
+            <Grid item>
+              <Typography variant='subheading' gutterBottom>Budget</Typography>
+              <TextField
+                type='number'
+                label='Transport'
+                defaultValue={travel.housingBudget}
+                onChange={(e) => this.handleChange('transportBudget', e.target.value)}
+                className={ classes.budget }
+              />
+              <TextField
+                type='number'
+                label='Housing'
+                defaultValue={travel.transportBudget}
+                onChange={(e) => this.handleChange('housingBudget', e.target.value)}
+                className={ classes.budget }
+              />
+              <TextField
+                type='number'
+                label='Other'
+                defaultValue={travel.otherBudget}
+                onChange={(e) => this.handleChange('otherBudget', e.target.value)}
+                className={ classes.budget }
+              />
+              <BudgetBar
+                housingBudget={ this.state.editedTravel.housingBudget }
+                transportBudget={ this.state.editedTravel.transportBudget }
+                otherBudget={ this.state.editedTravel.otherBudget }
+              />
+            </Grid>
+          </Grid>
+
+          <Button variant='raised' color='secondary' onClick={this.onSave}>
+            Save
+          </Button>
+          <Button onClick={ this.props.closeEditPane }>
+            Cancel
+          </Button>
+      </Fragment>
 
     )
   }
