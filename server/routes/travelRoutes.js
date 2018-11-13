@@ -18,7 +18,7 @@ travelRouter.post('/add', (req, res) => {
   Travel.create(travel, (err, travel) => {
     if (err) res.status(500).json({ error: err })
     else {
-      Travel.find((err, travels) => {
+      Travel.find({user: req.user.id}, (err, travels) => {
         if (err) res.status(500).json({ error: err })
         else res.status(200).json(travels)
       })
@@ -32,7 +32,7 @@ travelRouter.post('/edit/:id', (req, res) => {
   Travel.updateOne({ _id: id, user: req.user.id }, { $set: req.body}, (err, rawResponse) => {
     if (err) res.status(500).json({ error: err })
     else {
-      Travel.find((err, travels) => {
+      Travel.find({user: req.user.id}, (err, travels) => {
         if (err) res.status(500).json({ error: err })
         else res.status(200).json(travels)
       })
@@ -46,7 +46,7 @@ travelRouter.delete('/delete/:id', (req, res) => {
   Travel.deleteOne({ _id: id, user: req.user.id }, (err) => {
     if(err) res.status(500).json({ error: err })
     else {
-      Travel.find((err, travels) => {
+      Travel.find({user: req.user.id}, (err, travels) => {
         if (err) res.status(500).json({ error: err })
         else res.status(200).json(travels)
       })

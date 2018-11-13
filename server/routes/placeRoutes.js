@@ -12,7 +12,7 @@ placeRouter.post('/add', (req, res) => {
     else {
       travel.places.push(place)
       travel.save(function (err) {
-        Travel.find((err, travels) => {
+        Travel.find({user: req.user.id}, (err, travels) => {
           if (err) res.status(500).json({ error: err })
           else res.status(200).json(travels)
         })
@@ -29,7 +29,7 @@ placeRouter.post('/add', (req, res) => {
     else {
       travel.places.push(place)
       travel.save(function (err) {
-        Travel.find((err, travels) => {
+        Travel.find({user: req.user.id}, (err, travels) => {
           if (err) res.status(500).json({ error: err })
           else res.status(200).json(travels)
         })
@@ -46,7 +46,7 @@ placeRouter.delete('/delete', (req, res) => {
     else {
       travel.places.id(placeId).remove()
       travel.save(function (err) {
-        Travel.find((err, travels) => {
+        Travel.find({user: req.user.id}, (err, travels) => {
           if (err) res.status(500).json({ error: err })
           else res.status(200).json(travels)
         })
@@ -67,7 +67,7 @@ placeRouter.post('/edit', (req, res) => {
       place = Object.assign(place, editedPlace)
       console.log(place)
       travel.save(function (err) {
-        Travel.find((err, travels) => {
+        Travel.find({user: req.user.id}, (err, travels) => {
           if (err) res.status(500).json({ error: err })
           else res.status(200).json(travels)
         })
