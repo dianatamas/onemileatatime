@@ -5,7 +5,7 @@
 /node_modules
 dist
 #secrets
-/server/config/secrets.js
+#/server/config/secrets.js
 /client/key.js
 
 # testing
