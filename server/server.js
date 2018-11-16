@@ -43,7 +43,9 @@ app.use('/auth', authRouter)
 app.use('/travels', authCheck, travelRouter)
 app.use('/places', authCheck, placeRouter)
 app.use('/images', authCheck, express.static('images'))
-
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
 // Connect to MongoDB
 mongoose.connect(getSecret('dbUri'), { useNewUrlParser: true })
 let db = mongoose.connection
