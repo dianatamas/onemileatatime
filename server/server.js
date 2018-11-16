@@ -50,5 +50,5 @@ let db = mongoose.connection
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 // Set up the port
-const API_PORT = 3001;
+const API_PORT = process.env.PORT || 3001;
 app.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`))
