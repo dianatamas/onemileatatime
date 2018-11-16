@@ -3,7 +3,7 @@
 # dependencies
 /client/node_modules
 /node_modules
-
+dist
 #secrets
 /server/config/secrets.js
 /client/key.js

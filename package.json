@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "nodemon server/server.js --exec babel-node --presets es2015",
+    "build": "babel server -d dist",
+    "start": "npm run build && node dist/server.js",
     "heroku-postbuild": "cd client/ && npm install && npm run build"
   },
   "dependencies": {
