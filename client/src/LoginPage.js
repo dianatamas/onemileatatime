@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
-import queryString from "query-string"
 import Auth from './utils/Auth'
 
 const styles = {
@@ -21,10 +20,10 @@ const styles = {
 class LoginPage extends Component {
 
   componentDidMount() {
-    var query = queryString.parse(this.props.location.search)
-    if (query.token) {
+    let token = this.props.location.search.split('=')[1]
+    if (token) {
       // Authenticate user and redirect to Home page if user is logged in
-      Auth.authenticateUser(query.token)
+      Auth.authenticateUser(token)
       this.props.history.push("/")
     }
   }
