@@ -18,7 +18,7 @@ passport.use(
   {
    clientID: getSecret('googleClientID'),
    clientSecret: getSecret('googleClientSecret'),
-   callbackURL: "http://localhost:3001/auth/google/callback"
+   callbackURL: "/auth/google/callback"
   },
   (accessToken, refreshToken, profile, done) => {
     // check if user is already in db
