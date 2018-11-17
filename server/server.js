@@ -30,7 +30,7 @@ app.use(passport.session())
 // Else, proceed to next step
 const authCheck = (req, res, next) => {
   if(!req.user) {
-    res.redirect('http://localhost:3000/')
+    res.redirect('/')
   }
   else {
     next()
