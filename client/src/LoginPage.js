@@ -39,7 +39,7 @@ class LoginPage extends Component {
           </Grid>
           <Grid item>
             <Link to="/auth/google" target="_self">
-            <Button className={classes.googleButton} href="/auth/google" >
+            <Button className={classes.googleButton} >
               Google+
             </Button>
             </Link>
