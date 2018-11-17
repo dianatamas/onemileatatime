@@ -37,6 +37,7 @@ const authCheck = (req, res, next) => {
   }
 }
 
+// Serve the static files from the React app
 app.use(express.static(`/app/client/build/`));
 
 // Set up routes
@@ -45,6 +46,7 @@ app.use('/auth', authRouter)
 app.use('/travels', authCheck, travelRouter)
 app.use('/places', authCheck, placeRouter)
 app.use('/images', authCheck, express.static('images'))
+// Handles any requests that don't match the ones above
 app.get('/*', (req,res) =>{
   let directory = '/app/client/build/index.html'
     res.sendFile(directory);

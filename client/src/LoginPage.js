@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
@@ -38,9 +38,11 @@ class LoginPage extends Component {
             <Typography variant='title' gutterBottom> Login with... </Typography>
           </Grid>
           <Grid item>
+            <Link to="/auth/google" target="_self">
             <Button className={classes.googleButton} href="/auth/google" >
               Google+
             </Button>
+            </Link>
           </Grid>
         </Grid>
       </Fragment>
