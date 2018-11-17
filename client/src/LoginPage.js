@@ -38,7 +38,7 @@ class LoginPage extends Component {
             <Typography variant='title' gutterBottom> Login with... </Typography>
           </Grid>
           <Grid item>
-            <Button className={classes.googleButton} href="http://localhost:3001/auth/google" >
+            <Button className={classes.googleButton} href="/auth/google" >
               Google+
             </Button>
           </Grid>

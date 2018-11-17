@@ -13,13 +13,13 @@ authRouter.get(
     "/google/callback",
     passport.authenticate("google"),
     function(req, res) {
-      res.redirect('http://localhost:3000/login?token=' + req.user.token)
+      res.redirect('/login?token=' + req.user.token)
     }
 )
 
 authRouter.get('/logout', (req, res) => {
   req.logout()
-  res.redirect('http://localhost:3000/login')
+  res.redirect('/login')
 })
 
 export default authRouter
