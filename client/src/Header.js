@@ -48,7 +48,7 @@ class Header extends Component {
           </Link>
           <div style={{flexGrow:1}} />
           {Auth.isUserAuthenticated() &&
-            <Button onClick={() => Auth.deauthenticateUser()} href='http://localhost:3001/auth/logout' color='inherit'>
+            <Button onClick={() => Auth.deauthenticateUser()} href='/auth/logout' color='inherit'>
               Log Out
             </Button>
           }
