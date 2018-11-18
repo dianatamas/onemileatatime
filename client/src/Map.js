@@ -207,7 +207,9 @@ const mapStyles = [
 const options = {
   center: { lat: 41.0082, lng: 28.9784 },
   zoom: 8,
-  styles: mapStyles
+  styles: mapStyles,
+  streetViewControl: false,
+  mapTypeControl: false
 }
 
 export default class Map extends Component {
@@ -241,7 +243,7 @@ export default class Map extends Component {
         position: { lat: place.lat, lng: place.lng },
         map: map,
         title: place.name,
-        icon: '/images/pin.png'
+        icon: 'https://res.cloudinary.com/dnfpgtxmr/image/upload/v1542548615/travels/pin.png'
       });
       bounds.extend(marker.position);
       marker.addListener('click', e => {

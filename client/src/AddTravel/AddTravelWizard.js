@@ -92,7 +92,7 @@ class AddTravelWizard extends Component {
     const { classes, fullScreen, open } = this.props
     const { activeStep } = this.state
 
-    let nextDisabled = activeStep == 0 && !this.state.travel.title || activeStep == 5
+    let nextDisabled = (activeStep === 0 && !this.state.travel.title) || activeStep === 5
 
     return (
       <Dialog

@@ -11,6 +11,8 @@ import AddIcon from '@material-ui/icons/Add'
 import Map from './Map'
 import TravelSummaryCard from './TravelSummaryCard'
 import PlacesSearchBox from './PlacesSearchBox'
+import Hidden from '@material-ui/core/Hidden'
+import withWidth from '@material-ui/core/withWidth'
 
 const styles = {
   tagDone: {
@@ -19,14 +21,16 @@ const styles = {
     maxWidth: 'min-content',
   },
   addButton: {
-    position: 'absolute',
-    top: '56%',
-    left: '92%',
+    position: 'fixed',
+    top: '54%',
+    right: 0,
+    margin: 10
   },
   filterButton: {
-    position: 'absolute',
-    top: '44%',
-    left: '92%',
+    position: 'fixed',
+    top: '46%',
+    right: 0,
+    margin: 10
   }
 }
 
@@ -66,14 +70,16 @@ class TravelPage extends Component {
     if(mapsLoaded && travel !== undefined) {
       travelPage =
         <Grid container spacing={ 0 } style={{ height: '100%' }}>
-          <Grid item sm={ 3 } xs={ 0 }>
-            <TravelSummaryCard
-              travel = { travel }
-              updateTravel = { this.props.updateTravel }
-              deleteTravel = { this.props.deleteTravel }
-            />
-          </Grid>
-          <Grid item sm={ 9 } xs={ 12 } style={{ position: 'relative' }}>
+          <Hidden smDown>
+            <Grid item sm={ 3 } >
+              <TravelSummaryCard
+                travel = { travel }
+                updateTravel = { this.props.updateTravel }
+                deleteTravel = { this.props.deleteTravel }
+              />
+            </Grid>
+          </Hidden>
+          <Grid item xs={ 12 } md={ 9 } style={{ position: 'relative' }}>
             {<Map
               id="myMap"
               travel={ this.props.travel }
@@ -87,6 +93,7 @@ class TravelPage extends Component {
                 color="secondary"
                 aria-label="Add Place"
                 className={ classes.addButton }
+                mini
               >
                 <AddIcon />
               </Button>
@@ -95,6 +102,7 @@ class TravelPage extends Component {
                 color="secondary"
                 aria-label="Filter"
                 className={ classes.filterButton }
+                mini
               >
                 <FilterListIcon />
               </Button>
@@ -124,4 +132,4 @@ class TravelPage extends Component {
   }
 }
 
-export default withStyles(styles)(TravelPage)
+export default withStyles(styles)(withWidth()(TravelPage))
