@@ -7,8 +7,33 @@ body {
   padding: 0;
   font-family: sans-serif;
   height: 100%;
+  background: #282727;
 }
 
 #root {
   height: 100%;
+}
+
+.google-button__icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 8px 0 8px 8px;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+}
+
+.google-button__icon--plus {
+  width: 27px;
+}
+
+.google-button__text {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0 24px;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: 'Roboto',arial,sans-serif;
+  font-weight: 500;
+  text-transform: none;
 }

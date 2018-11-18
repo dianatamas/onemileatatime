@@ -12,7 +12,7 @@ import DeleteTravelConfirmation from './DeleteTravelConfirmation'
 
 const styles = {
   card: {
-    maxWidth: 330,
+    width: 250,
   },
   link: {
     color: 'inherit',
@@ -47,16 +47,13 @@ class TravelCard extends Component {
         <CardActionArea>
           <CardMedia
             component="img"
-            height="180"
+            height="150"
             image={ travel.image }
             title={ travel.title }
           />
-          <CardContent style={{ height: 70 }}>
-            <Typography gutterBottom variant="headline" component="h2">
+          <CardContent style={{ height: 40 }}>
+            <Typography gutterBottom variant="headline">
               { travel.title }
-            </Typography>
-            <Typography component="p">
-              { travel.description }
             </Typography>
           </CardContent>
         </CardActionArea>

@@ -11,11 +11,10 @@ import Auth from './utils/Auth'
 const styles = {
   grow: {
     flexGrow: 1,
-    letterSpacing: 3
+    letterSpacing: 2
   },
   icons: {
-    marginLeft: -12,
-    marginRight: 20,
+    marginRight: 15,
   },
   link: {
     color: 'inherit',
@@ -24,13 +23,6 @@ const styles = {
 };
 
 class Header extends Component {
-
-  auth = () => {
-    fetch('/auth/google/', {
-      method: "GET",
-      mode: 'no-cors'
-    })
-  }
 
   render() {
     const { classes } = this.props
@@ -42,8 +34,8 @@ class Header extends Component {
             <FlightIcon className={ classes.icons }/>
           </Link>
           <Link to='/' className={ classes.link }>
-            <Typography variant="headline" color="inherit" className={ classes.grow }>
-              Wanderlust
+            <Typography variant="button" color="inherit" className={ classes.grow }>
+              One Mile at A Time
             </Typography>
           </Link>
           <div style={{flexGrow:1}} />

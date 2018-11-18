@@ -29,7 +29,7 @@ class WizardStep2 extends Component {
     return (
       <Fragment>
         <Grid item>
-          <Typography>Please select the status of your travel</Typography>
+          <Typography>Have you already completed your travel?</Typography>
         </Grid>
         <Grid item>
           <TextField
@@ -54,7 +54,7 @@ class WizardStep2 extends Component {
         {travel.status === 1 &&
           <Fragment>
             <Grid item>
-              <Typography>Please rate your travel</Typography>
+              <Typography>How would you rate your travel?</Typography>
             </Grid>
             <Grid item>
               <div style={{display:'flex', flexDirection: 'column'}}>

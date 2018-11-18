@@ -17,7 +17,7 @@ class WizardStep3 extends Component {
     return (
       <Fragment>
         <Grid item>
-          <Typography>Please enter the date at which your travel started and ended</Typography>
+          <Typography>When did you travel?</Typography>
         </Grid>
         <Grid item>
           <TextField

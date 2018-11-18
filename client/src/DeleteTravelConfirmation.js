@@ -15,7 +15,7 @@ export default class DeleteTravelConfirmation extends Component {
         onClose={ onClose }
       >
         <DialogContent>
-          <DialogContentText>{'Are you sure you want to delete '+ title + ' travel?'}</DialogContentText>
+          <DialogContentText>{'Are you sure you want to delete your '+ title + ' travel?'}</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={ onConfirmation } color='secondary'>Yes</Button>

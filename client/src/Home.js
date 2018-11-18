@@ -2,10 +2,9 @@ import React, { Component, Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import TravelCard from './TravelCard.js'
-import frontImg from './images/cali.jpeg'
+import Tooltip from '@material-ui/core/Tooltip'
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add'
 import AddTravelWizard from './AddTravel/AddTravelWizard'
@@ -15,7 +14,7 @@ const styles = {
     flexGrow: 1,
   },
   images: {
-    opacity: 0.7,
+    opacity: 0.8,
     maxWidth: '100%',
     height: 'auto'
   },
@@ -27,20 +26,32 @@ const styles = {
     color: 'white',
     letterSpacing: 3
   },
-  blackBox: {
-    paddingTop: 20,
-    paddingRight: 15,
-    paddingBottom: 20,
-    paddingLeft: 15,
-    backgroundColor: '#212121',
-    fontWeight:300,
-  },
   lightFont: {
     fontWeight:300,
   },
   padding32: {
     padding: 32
   },
+  tag: {
+    backgroundColor: '#1976d2',
+    color: '#fff',
+    display: 'inline-block',
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingBottom: 2,
+    textAlign: 'center'
+  },
+  fixedButton: {
+    position: 'fixed',
+    bottom: 0,
+    right: 0,
+    margin: 15
+  },
+  title: {
+    paddingTop: 50,
+    paddingBottom: 50,
+    letterSpacing: 3
+  }
 };
 
 class Home extends Component {
@@ -62,32 +73,32 @@ class Home extends Component {
 
     return (
       <Fragment>
-        <div>
-          <img src={ frontImg } alt='' className={ classes.images } />
-          <div className={ classes.displayMiddle }>
-            <h1><span className={ classes.blackBox }>my</span><span className={ classes.lightFont }>Travels</span></h1>
-          </div>
-          <div id='travels'>
-            <Paper className={ classes.padding32 }>
-              <Typography variant="headline" gutterBottom>Travels</Typography>
-              <Grid container spacing={ 24 } alignItems={ 'center' }>
+        <div style={{ backgroundColor: 'white', width:'100%' }}>
+
+          <Typography variant='display1' align='center' className={ classes.title }>
+            Welcome to your <span className={ classes.tag }>travel blog</span>
+          </Typography>
+
+          <div id='travels' className={ classes.padding32 }>
+            <Typography variant="headline" gutterBottom>Travels</Typography>
+            <Grid container spacing={ 24 }>
               {travels.map(travel =>
-                <Grid item key={ travel._id }>
+                <Grid item key={ travel._id } >
                   <TravelCard travel={ travel } deleteTravel={ this.props.deleteTravel }/>
                 </Grid>
               )}
-                <Grid item>
-                  <Button
-                    onClick={ this.openAddWizard }
-                    variant="fab"
-                    color="secondary"
-                    aria-label="Add"
-                  >
-                    <AddIcon />
-                  </Button>
-                </Grid>
-              </Grid>
-            </Paper>
+            </Grid>
+            <Tooltip title='Add new travel'>
+              <Button
+                onClick={ this.openAddWizard }
+                className={ classes.fixedButton }
+                variant="fab"
+                color="secondary"
+                aria-label="Add Travel"
+              >
+                <AddIcon />
+              </Button>
+            </Tooltip>
           </div>
         </div>
         <AddTravelWizard

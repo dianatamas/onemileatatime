@@ -18,7 +18,7 @@ class WizardStep1 extends Component {
     return (
       <Fragment>
         <Grid item>
-          <Typography>Please start by giving your travel a title and a short description</Typography>
+          <Typography>How do you want to name and describe your new travel?</Typography>
         </Grid>
         <Grid item>
           <TextField
@@ -33,7 +33,6 @@ class WizardStep1 extends Component {
             label='Description'
             onChange={ (e) => this.props.handleChange('description', e.target.value) }
             className={ classes.textField }
-            required
             multiline
             rowsMax="3"
           />
