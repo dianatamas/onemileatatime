@@ -50,7 +50,7 @@ class TravelSummaryCardEdit extends Component {
 
     return (
         <Fragment>
-          <Grid container spacing={16} style={{ marginBottom:20 }} direction='column'>
+          <Grid container spacing={16} style={{ marginBottom:20, marginLeft: 12, marginRight: 12 }} direction='column'>
             <Typography variant='title' gutterBottom>Edit your travel</Typography>
             <Grid item>
               <TextField

@@ -38,7 +38,14 @@ class TravelPage extends Component {
 
   state = {
     addPlaceDialog: false,
+    showSidebar: true,
     map: null,
+  }
+
+  handleSidebar = () => {
+    this.setState((prevState) => {
+      return {showSidebar: !prevState.showSidebar}
+    })
   }
 
   openAddPlaceDialog = () => {
@@ -76,6 +83,7 @@ class TravelPage extends Component {
                 travel = { travel }
                 updateTravel = { this.props.updateTravel }
                 deleteTravel = { this.props.deleteTravel }
+                handleSidebar = { this.handleSidebar }
               />
             </Grid>
           </Hidden>

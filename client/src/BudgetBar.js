@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import Tooltip from '@material-ui/core/Tooltip'
 import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
 
 const styles = {
   budgetBar: {
-    height: 20,
+    height: '3vh',
   },
   legend: {
-    width: 15,
-    height: 15,
-    borderRadius: 15,
+    width: '1vw',
+    height: '2vh',
     flexShrink: 0
   }
 }
@@ -37,9 +37,9 @@ class BudgetBar extends Component {
           </Tooltip>
         </div>
         <div style={{ display: 'flex', marginBottom: 30, justifyContent: 'space-evenly', flexWrap: 'wrap' }}>
-          <div className={ classes.legend } style={{ backgroundColor: '#1976d2' }}></div><span>Housing</span>
-          <div className={ classes.legend } style={{ backgroundColor: '#2196F3' }}></div><span>Transport</span>
-          <div className={ classes.legend } style={{ backgroundColor: '#BBDEFB' }}></div><span>Other</span>
+          <div className={ classes.legend } style={{ backgroundColor: '#1976d2' }}></div><Typography>Housing</Typography>
+          <div className={ classes.legend } style={{ backgroundColor: '#2196F3' }}></div><Typography>Transport</Typography>
+          <div className={ classes.legend } style={{ backgroundColor: '#BBDEFB' }}></div><Typography>Other</Typography>
         </div>
       </div>
     )
