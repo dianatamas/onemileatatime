@@ -13,6 +13,8 @@ import TravelSummaryCard from './TravelSummaryCard'
 import PlacesSearchBox from './PlacesSearchBox'
 import Hidden from '@material-ui/core/Hidden'
 import withWidth from '@material-ui/core/withWidth'
+import ArrowRight from '@material-ui/icons/KeyboardArrowRight'
+import IconButton from '@material-ui/core/IconButton'
 
 const styles = {
   tagDone: {
@@ -22,14 +24,20 @@ const styles = {
   },
   addButton: {
     position: 'fixed',
-    top: '54%',
+    top: '56%',
     right: 0,
     margin: 10
   },
   filterButton: {
     position: 'fixed',
-    top: '46%',
+    top: '44%',
     right: 0,
+    margin: 10
+  },
+  expandButton: {
+    position: 'fixed',
+    top: '50%',
+    left: 0,
     margin: 10
   }
 }
@@ -68,27 +76,47 @@ class TravelPage extends Component {
     this.props.updatePlace(this.props.travel._id, placeId, edit)
   }
 
-  render () {
-    const { classes, mapsLoaded, travel } = this.props
+  isSmallScreen = (width) => {
+    return width === 'xs'
+  }
 
+  render () {
+    const { classes, mapsLoaded, travel, width } = this.props
+    const { showSidebar } = this.state
+
+    let sideBarWidth, mapWidth
+    if(width !== 'xs' && showSidebar) {
+      sideBarWidth = 3
+      mapWidth = 9
+    }
+    if(width !== 'xs' && !showSidebar) {
+      mapWidth = 12
+    }
+    if(width === 'xs' && showSidebar) {
+      sideBarWidth = 12
+    }
+    if(width == 'xs' && !showSidebar) {
+      mapWidth = 12
+    }
     // Show loading bar until Maps and props are laoded
     let travelPage =
       <div><LinearProgress color='secondary'/></div>
     if(mapsLoaded && travel !== undefined) {
       travelPage =
         <Grid container spacing={ 0 } style={{ height: '100%' }}>
-          <Hidden smDown>
-            <Grid item sm={ 3 } >
-              <TravelSummaryCard
-                travel = { travel }
-                updateTravel = { this.props.updateTravel }
-                deleteTravel = { this.props.deleteTravel }
-                handleSidebar = { this.handleSidebar }
-              />
-            </Grid>
-          </Hidden>
-          <Grid item xs={ 12 } md={ 9 } style={{ position: 'relative' }}>
-            {<Map
+          { showSidebar &&
+              <Grid item xs={ sideBarWidth }>
+                <TravelSummaryCard
+                  travel = { travel }
+                  updateTravel = { this.props.updateTravel }
+                  deleteTravel = { this.props.deleteTravel }
+                  handleSidebar = { this.handleSidebar }
+                />
+              </Grid>
+          }
+          {(width !== 'xs' || !showSidebar) &&
+          <Grid item xs={ mapWidth } style={{ position: 'relative' }}>
+            { <Map
               id="myMap"
               travel={ this.props.travel }
               onMapLoad={map => this.setState({ map }) }
@@ -101,7 +129,6 @@ class TravelPage extends Component {
                 color="secondary"
                 aria-label="Add Place"
                 className={ classes.addButton }
-                mini
               >
                 <AddIcon />
               </Button>
@@ -110,11 +137,23 @@ class TravelPage extends Component {
                 color="secondary"
                 aria-label="Filter"
                 className={ classes.filterButton }
-                mini
               >
                 <FilterListIcon />
               </Button>
+              { !showSidebar &&
+                <Button
+                  onClick={ this.handleSidebar }
+                  variant="fab"
+                  color="secondary"
+                  aria-label="Collapse or expand sidebar"
+                  className={ classes.expandButton }
+                >
+                  <ArrowRight />
+                </Button>
+              }
             </Grid>
+          }
+
           </Grid>
     }
 

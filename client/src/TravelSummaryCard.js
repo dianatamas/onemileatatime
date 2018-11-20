@@ -19,19 +19,12 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import ArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
-import ArrowRight from '@material-ui/icons/KeyboardArrowRight'
 
 const styles = {
   tagDone: {
     padding: '5px 8px 5px 8px',
     backgroundColor: '#34a83499',
     maxWidth: 'min-content',
-  },
-  img: {
-    height: 255,
-    maxWidth: 400,
-    overflow: 'hidden',
-    width: '100%',
   },
   divider: {
     marginTop: 10,
