@@ -116,7 +116,6 @@ class TravelSummaryCard extends Component {
                       onClick={ this.showEditPane }
                       color="secondary"
                       aria-label="Edit Travel"
-                      mini
                     >
                       <EditIcon fontSize='small'/>
                     </IconButton>

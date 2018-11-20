@@ -18,27 +18,6 @@ const theme = createMuiTheme({
       main: '#1976d2',
     },
   },
-  overrides : {
-    MuiTypography: {
-      body1: {
-        fontSize: '1.1vw'
-      },
-      headline: {
-        fontSize: '2vw'
-      },
-      title: {
-        fontSize: '1.8vw'
-      },
-      subheading: {
-        fontSize: '1.3vw'
-      },
-    },
-    MuiSvgIcon: {
-      root: {
-        width: '2vw'
-      }
-    }
-  }
 })
 
 class App extends Component {
