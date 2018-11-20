@@ -9,6 +9,12 @@ import MenuItem from '@material-ui/core/MenuItem'
 import StarBorder from '@material-ui/icons/StarBorder'
 import Star from '@material-ui/icons/Star'
 import BudgetBar from './BudgetBar'
+import CardContent from '@material-ui/core/CardContent'
+import Checkbox from '@material-ui/core/Checkbox'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Save from '@material-ui/icons/Save'
+import Clear from '@material-ui/icons/Clear'
+import IconButton from '@material-ui/core/IconButton'
 
 const styles = {
   status: {
@@ -16,8 +22,12 @@ const styles = {
   },
   budget: {
     width: 100,
-    marginBottom: 20
-  }
+    marginBottom: 10,
+    marginRight: 10
+  },
+  content: {
+    overflowY: 'auto'
+  },
 }
 
 const statuses = [
@@ -43,53 +53,70 @@ class TravelSummaryCardEdit extends Component {
 
   onSave = () => {
     this.props.updateTravel(this.props.travel._id, this.state.editedTravel)
+    this.props.closeEditPane()
   }
 
   render () {
     const { classes, travel } = this.props
+    const { editedTravel } = this.state
 
     return (
-        <Fragment>
-          <Grid container spacing={16} style={{ marginBottom:20, marginLeft: 12, marginRight: 12 }} direction='column'>
-            <Typography variant='title' gutterBottom>Edit your travel</Typography>
-            <Grid item>
+        <CardContent classes={{ root: classes.content }} style={{ height: '100%'}}>
+          <Grid container style={{ marginBottom:10 }} direction='column'>
+            <Grid item style={{ display: 'flex', alignItems: 'center'}}>
+              <Typography variant='subheading' style={{ flexGrow: 1}}>Edit your travel</Typography>
+              <IconButton
+                onClick={this.onSave}
+                color="secondary"
+                aria-label="Save"
+              >
+                <Save fontSize='small'/>
+              </IconButton>
+              <IconButton
+                onClick={ this.props.closeEditPane }
+                aria-label="Cancel"
+              >
+                <Clear fontSize='small'/>
+              </IconButton>
+            </Grid >
+            <Grid item style={{ display: 'flex' }}>
               <TextField
-                defaultValue={travel.title}
+                defaultValue={ travel.title }
                 label={'Title'}
                 onChange={(e) => this.handleChange('title', e.target.value)}
+                margin='normal'
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={ Boolean(Number(editedTravel.status)) }
+                    onChange={(e) => this.handleChange('status', Number(e.target.checked))}
+                    value={ 'status' }
+                    style={{ marginLeft: 20,  marginTop: 5 }}
+                  />
+                }
+                label="Status"
               />
             </Grid>
-            <Grid item>
-              <TextField
-                select
-                label={ 'Status' }
-                value={ travel.status }
-                onChange={ (e) => this.handleChange('status', e.target.value) }
-                className={ classes.status }
-              >
-              {statuses.map(option => (
-                <MenuItem key={ option.value } value={ option.value }>
-                  { option.label }
-                </MenuItem>
-              ))}
-              </TextField>
-            </Grid>
+
             <Grid item>
               <TextField
                 defaultValue={travel.description}
                 label={'Description'}
                 multiline
                 onChange={(e) => this.handleChange('description', e.target.value)}
+                margin='normal'
               />
             </Grid>
             <Grid item>
-              <Typography variant='subheading' gutterBottom>Rating</Typography>
+              <Typography style={{ marginTop: 16 }} variant='subheading' gutterBottom>Rating</Typography>
               <Rating
                 fractions={ 2 }
                 initialRating={ 'rating' in this.state.editedTravel ? this.state.editedTravel.rating : travel.rating }
                 onChange={(value) => this.handleChange('rating', value)}
                 emptySymbol={<StarBorder style={{ color: '#1976d2' }}/>}
                 fullSymbol={<Star style={{ color: '#1976d2' }}/>}
+                style={{marginBottom: 8}}
               />
             </Grid>
             <Grid item>
@@ -122,14 +149,7 @@ class TravelSummaryCardEdit extends Component {
               />
             </Grid>
           </Grid>
-
-          <Button variant='raised' color='secondary' onClick={this.onSave}>
-            Save
-          </Button>
-          <Button onClick={ this.props.closeEditPane }>
-            Cancel
-          </Button>
-      </Fragment>
+      </CardContent>
 
     )
   }

@@ -35,7 +35,8 @@ const styles = {
   },
   content: {
     paddingRight: 2,
-    paddingLeft: 2
+    paddingLeft: 2,
+    overflowY: 'auto'
   },
   expansionDetails: {
     display: 'block'
@@ -45,7 +46,7 @@ const styles = {
   },
   expansionPanel: {
     marginTop: 0
-  }
+  },
 }
 
 const statuses = {
@@ -84,16 +85,8 @@ class TravelSummaryCard extends Component {
     return (
       <Fragment>
         <Card style={{ height: '100%' }} elevation={ 0 } square>
-          {!showEditPane &&
-            <Fragment>
-              <CardMedia
-                className={classes.media}
-                image={ travel.image }
-              />
-              <div style={{ height: 10, backgroundColor: statusColor }}></div>
-            </Fragment>
-          }
-          <CardContent classes={{ root: classes.content }}>
+
+
             {showEditPane &&
               <TravelSummaryCardEdit
                 travel={ this.props.travel }
@@ -103,8 +96,13 @@ class TravelSummaryCard extends Component {
             }
             {!showEditPane &&
               <Fragment>
+                <CardMedia
+                  className={classes.media}
+                  image={ travel.image }
+                />
+                <div style={{ height: 10, backgroundColor: statusColor }}></div>
+                <CardContent classes={{ root: classes.content }} style={{ height: '60%'}}>
                 <Grid container alignItems={ 'center' } style={{ marginBottom:10 }}>
-
                   <Grid item style={{ flexGrow: 1 }}>
                     <Typography variant='title' style={{ marginLeft: 12, fontWeight: 500 }} >
                       { travel.title.toUpperCase() }
@@ -183,9 +181,10 @@ class TravelSummaryCard extends Component {
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
 
+              </CardContent>
               </Fragment>
             }
-          </CardContent>
+
         </Card>
       </Fragment>
     )

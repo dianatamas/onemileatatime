@@ -8,8 +8,8 @@ const styles = {
     height: '3vh',
   },
   legend: {
-    width: '1vw',
-    height: '2vh',
+    width: 10,
+    height: 10,
     flexShrink: 0
   }
 }
