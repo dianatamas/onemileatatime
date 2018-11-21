@@ -95,7 +95,7 @@ class TravelSummaryCardEdit extends Component {
                     style={{ marginLeft: 20,  marginTop: 5 }}
                   />
                 }
-                label="Status"
+                label={Boolean(Number(editedTravel.status)) ? 'Done' : 'Planned'}
               />
             </Grid>
 

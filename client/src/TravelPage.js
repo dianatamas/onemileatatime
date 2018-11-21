@@ -15,6 +15,7 @@ import Hidden from '@material-ui/core/Hidden'
 import withWidth from '@material-ui/core/withWidth'
 import ArrowRight from '@material-ui/icons/KeyboardArrowRight'
 import IconButton from '@material-ui/core/IconButton'
+import withMobileDialog from '@material-ui/core/withMobileDialog'
 
 const styles = {
   tagDone: {
@@ -39,6 +40,29 @@ const styles = {
     top: '50%',
     left: 0,
     margin: 10
+  }
+}
+
+class AddPlaceDialog extends Component {
+
+  render () {
+    return (
+      <Dialog
+        open={ this.props.addPlaceDialog }
+        onClose={ this.props.closeAddPlaceDialog }
+        fullScreen={ this.props.fullScreen }
+      >
+        <DialogTitle>Add a new place</DialogTitle>
+        <DialogContent style={{ height: 300, width: 300 }}>
+          <PlacesSearchBox
+            mapsLoaded={ this.props.mapsLoaded }
+            map={ this.props.map }
+            closeDialog={ this.props.closeAddPlaceDialog }
+            addPlace={ this.props.addPlace }
+          />
+        </DialogContent>
+      </Dialog>
+    )
   }
 }
 
@@ -83,6 +107,7 @@ class TravelPage extends Component {
   render () {
     const { classes, mapsLoaded, travel, width } = this.props
     const { showSidebar } = this.state
+    const ResponsiveDialog = withMobileDialog({ breakpoint: 'xs'})(AddPlaceDialog)
 
     let sideBarWidth, mapWidth
     if(width !== 'xs' && showSidebar) {
@@ -160,20 +185,13 @@ class TravelPage extends Component {
     return (
       <div style={{ height: 'calc(100% - 64px)' }}>
         { travelPage }
-        <Dialog
-          open={ this.state.addPlaceDialog }
-          onClose={ this.closeAddPlaceDialog }
-        >
-          <DialogTitle>Add a new place</DialogTitle>
-          <DialogContent style={{ height: 300, width: 300 }}>
-            <PlacesSearchBox
-              mapsLoaded={ this.props.mapsLoaded }
-              map={ this.state.map }
-              closeDialog={ this.closeAddPlaceDialog }
-              addPlace={ this.addPlace }
-            />
-          </DialogContent>
-        </Dialog>
+        <ResponsiveDialog
+          addPlace={ this.addPlace }
+          addPlaceDialog={ this.state.addPlaceDialog }
+          closeAddPlaceDialog={ this.closeAddPlaceDialog }
+          map={ this.state.map }
+          mapsLoaded={ this.props.mapsLoaded }
+        />
       </div>
     )
   }

@@ -43,6 +43,10 @@ class App extends Component {
     }
   }
 
+  componentWillUnmount () {
+    Auth.deauthenticateUser()
+  }
+
   // Get the list of travels from the database
   getTravels = () => {
     fetch('/travels/')
