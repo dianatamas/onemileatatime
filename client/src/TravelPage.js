@@ -5,6 +5,7 @@ import FilterListIcon from '@material-ui/icons/FilterList'
 import Grid from '@material-ui/core/Grid'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import AddIcon from '@material-ui/icons/Add'
@@ -61,6 +62,11 @@ class AddPlaceDialog extends Component {
             addPlace={ this.props.addPlace }
           />
         </DialogContent>
+        <DialogActions>
+          <Button onClick={ this.props.closeAddPlaceDialog }>
+            Cancel
+          </Button>
+        </DialogActions>
       </Dialog>
     )
   }
