@@ -15,11 +15,22 @@ import LoupeIcon from '@material-ui/icons/Loupe'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
 import InfoCardEdit from './InfoCardEdit'
+import { createMuiTheme } from '@material-ui/core/styles'
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#212121',
+    },
+    secondary: {
+      main: '#1976d2',
+    },
+  },
+})
 
 const styles = {
   card: {
-    width: 345,
-    height: 340
   },
   content: {
     height: 120
@@ -56,6 +67,7 @@ class InfoCard extends React.Component {
     const { showEditPane } = this.state
 
     return (
+      <MuiThemeProvider theme={ theme }>
       <div>
         <Card className={classes.card}>
             {showEditPane ?
@@ -118,6 +130,7 @@ class InfoCard extends React.Component {
             }
         </Card>
       </div>
+      </MuiThemeProvider>
     )
   }
 
