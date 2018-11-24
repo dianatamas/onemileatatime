@@ -1,6 +1,15 @@
 import React, { Component } from 'react'
 import Select from 'react-select'
 
+const placeTypeMapping = {
+  'Food': ['bakery', 'cafe', 'restaurant', 'food'],
+  'Bar': ['bar'],
+  'Attraction': ['amusement_park', 'aquarium', 'art_gallery', 'casino', 'church',
+  'hindu_temple', 'mosque', 'museum', 'stadium', 'synagogue', 'zoo', 'point_of_interest'],
+  'City': ['locality', 'sublocality'],
+  'Shopping': ['clothing_store', 'library', 'shoe_store', 'shopping_mall']
+}
+
 export default class PlacesSearchBox extends Component {
 
   state = {
@@ -26,6 +35,20 @@ export default class PlacesSearchBox extends Component {
     }
   }
 
+  assignPlaceType = (type) => {
+    let finalType = type
+    let typeFound = false
+    for (let key of Object.keys(placeTypeMapping)) {
+      if (placeTypeMapping[key].includes(finalType)) {
+        finalType = key
+        typeFound = true
+        break
+      }
+    }
+    if(!typeFound) finalType = finalType.split('_').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ')
+    return finalType
+  }
+
   // Add new place on the map
   handleAddPlace = (place) => {
     if(place !== null) {
@@ -43,6 +66,7 @@ export default class PlacesSearchBox extends Component {
           name: place_label,
           lat: results[0].geometry.location.lat(),
           lng: results[0].geometry.location.lng(),
+          type: this.assignPlaceType(results[0].types[0])
         }
         this.props.addPlace(place)
       })

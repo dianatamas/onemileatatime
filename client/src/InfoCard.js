@@ -69,18 +69,18 @@ class InfoCard extends React.Component {
     return (
       <MuiThemeProvider theme={ theme }>
       <div>
-        <Card className={classes.card}>
-            {showEditPane ?
+        <Card className={ classes.card }>
+            { showEditPane ?
               <InfoCardEdit
                 place={ place }
                 updatePlace={ this.props.updatePlace }
               />
               :
               <Fragment>
-                <CardHeader title={place.name} />
+                <CardHeader title={ place.name } subheader={ place.type }/>
                 <Tabs
-                  value={this.state.tab}
-                  onChange={this.handleTabChange}
+                  value={ this.state.tab }
+                  onChange={ this.handleTabChange }
                   fullWidth
                   indicatorColor="secondary"
                   textColor="secondary"
@@ -89,8 +89,8 @@ class InfoCard extends React.Component {
                   <Tab icon={<LoupeIcon />} label="TIPS" />
                 </Tabs>
 
-                <CardContent className={classes.content}>
-                  {this.state.tab === 0 &&
+                <CardContent className={ classes.content }>
+                  { this.state.tab === 0 &&
                     <Fragment>
                       <Rating
                         fractions={ 2 }
@@ -100,13 +100,13 @@ class InfoCard extends React.Component {
                         readonly
                       />
                       <Typography gutterBottom>
-                        {place.comment}
+                        { place.comment }
                       </Typography>
                     </Fragment>
                     }
-                  {this.state.tab === 1 &&
+                  { this.state.tab === 1 &&
                     <Typography gutterBottom>
-                      {place.tip}
+                      { place.tip }
                     </Typography>
                   }
                 </CardContent>

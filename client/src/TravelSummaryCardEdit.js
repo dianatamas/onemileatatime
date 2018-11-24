@@ -125,14 +125,14 @@ class TravelSummaryCardEdit extends Component {
                 type='number'
                 label='Transport'
                 defaultValue={travel.housingBudget}
-                onChange={(e) => this.handleChange('transportBudget', e.target.value)}
+                onChange={(e) => this.handleChange('housingBudget', e.target.value)}
                 className={ classes.budget }
               />
               <TextField
                 type='number'
                 label='Housing'
                 defaultValue={travel.transportBudget}
-                onChange={(e) => this.handleChange('housingBudget', e.target.value)}
+                onChange={(e) => this.handleChange('transportBudget', e.target.value)}
                 className={ classes.budget }
               />
               <TextField

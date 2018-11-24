@@ -19,6 +19,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import ArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
+import PlaceTypeBar from './PlaceTypeBar'
 
 const styles = {
   tagDone: {
@@ -178,6 +179,7 @@ class TravelSummaryCard extends Component {
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails classes={{ root: classes.expansionDetails }}>
                     <Typography>You have visited {travel.places.length} places!</Typography>
+                    <PlaceTypeBar places={ travel.places }/>
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
 

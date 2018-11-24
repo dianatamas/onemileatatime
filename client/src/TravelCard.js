@@ -58,7 +58,7 @@ class TravelCard extends Component {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Link to={ "/travels/" + travel._id } className={ classes.link }>
+          <Link to={ "/travel/" + travel._id } className={ classes.link }>
             <Button size="small" color="primary">
               Explore
             </Button>

@@ -10,6 +10,11 @@ import AddIcon from '@material-ui/icons/Add'
 import AddTravelWizard from './AddTravel/AddTravelWizard'
 
 const styles = {
+  container: {
+    backgroundColor: 'white',
+    width:'100%',
+    height: 'calc(100% - 64px)'
+  },
   root: {
     flexGrow: 1,
   },
@@ -47,6 +52,10 @@ const styles = {
     right: 0,
     margin: 15
   },
+  fixedButton0: {
+    margin: 'auto',
+    marginTop: 50
+  },
   title: {
     paddingTop: 50,
     paddingBottom: 50,
@@ -73,32 +82,48 @@ class Home extends Component {
 
     return (
       <Fragment>
-        <div style={{ backgroundColor: 'white', width:'100%' }}>
+        <div className={ classes.container }>
 
           <Typography variant='display1' align='center' className={ classes.title }>
-            Welcome to your <span className={ classes.tag }>travel blog</span>
+            Welcome to your <span className={ classes.tag }>travel blog</span>!
           </Typography>
 
           <div id='travels' className={ classes.padding32 }>
             <Typography variant="headline" gutterBottom>Travels</Typography>
             <Grid container spacing={ 24 }>
-              {travels.map(travel =>
-                <Grid item key={ travel._id } >
-                  <TravelCard travel={ travel } deleteTravel={ this.props.deleteTravel }/>
-                </Grid>
-              )}
+              { travels.length === 0 ?
+                <Tooltip title='Add new travel'>
+                  <Button
+                    onClick={ this.openAddWizard }
+                    className={ classes.fixedButton0 }
+                    variant="extendedFab"
+                    color="secondary"
+                    aria-label="Add Travel"
+                  > Add your travels
+                    <AddIcon />
+                  </Button>
+                </Tooltip>
+                :
+                travels.map(travel =>
+                  <Grid item key={ travel._id } >
+                    <TravelCard travel={ travel } deleteTravel={ this.props.deleteTravel }/>
+                  </Grid>
+                )
+              }
             </Grid>
-            <Tooltip title='Add new travel'>
-              <Button
-                onClick={ this.openAddWizard }
-                className={ classes.fixedButton }
-                variant="fab"
-                color="secondary"
-                aria-label="Add Travel"
-              >
-                <AddIcon />
-              </Button>
-            </Tooltip>
+            { travels.length > 0 &&
+              <Tooltip title='Add new travel'>
+                <Button
+                  onClick={ this.openAddWizard }
+                  className={ classes.fixedButton }
+                  variant="fab"
+                  color="secondary"
+                  aria-label="Add Travel"
+                >
+                  <AddIcon />
+                </Button>
+              </Tooltip>
+            }
           </div>
         </div>
         <AddTravelWizard

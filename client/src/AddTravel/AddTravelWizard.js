@@ -139,6 +139,9 @@ class AddTravelWizard extends Component {
 
         </DialogContent>
         <DialogActions>
+          <Button onClick={ this.handleClose }>
+            Cancel
+          </Button>
           <MobileStepper
             variant="progress"
             steps={ 5 }
@@ -151,6 +154,7 @@ class AddTravelWizard extends Component {
                 size="small"
                 onClick={ this.handleNext }
                 disabled={ nextDisabled }
+                color='secondary'
               >
                 {activeStep === 4 ? 'Save' : 'Next'}
                 <KeyboardArrowRight />
@@ -167,9 +171,7 @@ class AddTravelWizard extends Component {
               </Button>
             }
           />
-          <Button onClick={ this.handleClose }>
-            Cancel
-          </Button>
+
         </DialogActions>
       </Dialog>
 

@@ -9,6 +9,7 @@
     "babel-preset-es2015": "^6.24.1",
     "concurrently": "^4.0.1",
     "cropperjs": "^1.4.3",
+    "randomcolor": "^0.5.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-dropzone": "^6.2.4",
@@ -24,14 +25,14 @@
     "eject": "react-scripts eject"
   },
   "proxy": {
-    "/auth" : {
-      "target" : "http://localhost:3001"
+    "/auth": {
+      "target": "http://localhost:3001"
     },
-    "/travels" : {
-      "target" : "http://localhost:3001"
+    "/travels": {
+      "target": "http://localhost:3001"
     },
-    "/places" : {
-      "target" : "http://localhost:3001"
+    "/places": {
+      "target": "http://localhost:3001"
     }
   }
 }

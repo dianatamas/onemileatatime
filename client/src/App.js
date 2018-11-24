@@ -182,7 +182,7 @@ class App extends Component {
           />
 
           <Route
-            path='/travels/:id'
+            path='/travel/:id'
             render={props =>
               Auth.isUserAuthenticated() ? (
                 <TravelPage
